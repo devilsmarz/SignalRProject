@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ProjectsVS\\SignalRProject\\SignalRBackend\\SignalRBackend.csproj": {}
+    "F:\\Reenbit\\SignalRProject\\SignalRBackend\\SignalRBackend.csproj": {}
   },
   "projects": {
-    "D:\\ProjectsVS\\SignalRProject\\SignalRBackend\\SignalRBackend.csproj": {
+    "F:\\Reenbit\\SignalRProject\\SignalRBackend\\SignalRBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ProjectsVS\\SignalRProject\\SignalRBackend\\SignalRBackend.csproj",
+        "projectUniqueName": "F:\\Reenbit\\SignalRProject\\SignalRBackend\\SignalRBackend.csproj",
         "projectName": "SignalRBackend",
-        "projectPath": "D:\\ProjectsVS\\SignalRProject\\SignalRBackend\\SignalRBackend.csproj",
-        "packagesPath": "C:\\Users\\kozya\\.nuget\\packages\\",
-        "outputPath": "D:\\ProjectsVS\\SignalRProject\\SignalRBackend\\obj\\",
+        "projectPath": "F:\\Reenbit\\SignalRProject\\SignalRBackend\\SignalRBackend.csproj",
+        "packagesPath": "C:\\Users\\Егор\\.nuget\\packages\\",
+        "outputPath": "F:\\Reenbit\\SignalRProject\\SignalRBackend\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "D:\\VSSDK\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\kozya\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Егор\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -59,16 +55,11 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[3.1.28, 3.1.28]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -77,7 +68,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -55,11 +55,6 @@ namespace SignalRBackend
             {
                 endpoints.MapControllers();
             });
-            app.Run(;
-        }
-        public void XXX(IApplicationBuilder x)
-        {
-            (DBConfiguration.AppContext db) => db.Users.ToList();
         }
     }
 }
