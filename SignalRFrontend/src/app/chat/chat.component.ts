@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'chat-app',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent {
 

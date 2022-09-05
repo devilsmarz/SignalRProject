@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SignalRBackend.DBConfiguration;
 using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,8 +10,8 @@ namespace SignalRBackend.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        DBConfiguration.AppContext _db;
-        public ValuesController(DBConfiguration.AppContext db)
+        private readonly ApplicationContext _db;
+        public ValuesController(ApplicationContext db)
         {
             _db = db;
         }

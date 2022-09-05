@@ -118,3 +118,5 @@ F:\Reenbit\SignalRProject\SignalRBackend\bin\Debug\netcoreapp3.1\runtimes\win-x8
 F:\Reenbit\SignalRProject\SignalRBackend\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 F:\Reenbit\SignalRProject\SignalRBackend\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 F:\Reenbit\SignalRProject\SignalRBackend\obj\Debug\netcoreapp3.1\SignalRBackend.csproj.CopyComplete
+F:\Reenbit\SignalRProject\SignalRBackend\bin\Debug\netcoreapp3.1\Humanizer.dll
+F:\Reenbit\SignalRProject\SignalRBackend\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
