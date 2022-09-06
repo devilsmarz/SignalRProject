@@ -8,19 +8,24 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\Егор\\.nuget\\packages\\": {}
+    "C:\\Users\\kozya\\.nuget\\packages\\": {},
+    "D:\\VSSDK\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Reenbit\\SignalRProject\\SignalRBackend.BAL\\SignalRBackend.BAL.csproj",
+      "projectUniqueName": "D:\\ProjectsVS\\SignalRProject\\SignalRBackend.BAL\\SignalRBackend.BAL.csproj",
       "projectName": "SignalRBackend.BAL",
-      "projectPath": "F:\\Reenbit\\SignalRProject\\SignalRBackend.BAL\\SignalRBackend.BAL.csproj",
-      "packagesPath": "C:\\Users\\Егор\\.nuget\\packages\\",
-      "outputPath": "F:\\Reenbit\\SignalRProject\\SignalRBackend.BAL\\obj\\",
+      "projectPath": "D:\\ProjectsVS\\SignalRProject\\SignalRBackend.BAL\\SignalRBackend.BAL.csproj",
+      "packagesPath": "C:\\Users\\kozya\\.nuget\\packages\\",
+      "outputPath": "D:\\ProjectsVS\\SignalRProject\\SignalRBackend.BAL\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "D:\\VSSDK\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Егор\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\kozya\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -51,8 +56,7 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -61,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.303\\RuntimeIdentifierGraph.json"
       }
     }
   }

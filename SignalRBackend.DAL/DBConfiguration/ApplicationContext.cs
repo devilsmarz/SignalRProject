@@ -17,7 +17,7 @@ namespace SignalRBackend.DAL.DBConfiguration
             _configuration = configuration;
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
+        {   
             String connection = _configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(connection);
         }

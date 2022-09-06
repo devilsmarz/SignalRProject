@@ -8,3 +8,13 @@ F:\Reenbit\SignalRProject\SignalRBackend.BAL\obj\Debug\netcoreapp3.1\SignalRBack
 F:\Reenbit\SignalRProject\SignalRBackend.BAL\obj\Debug\netcoreapp3.1\SignalRBackend.BAL.csproj.CoreCompileInputs.cache
 F:\Reenbit\SignalRProject\SignalRBackend.BAL\obj\Debug\netcoreapp3.1\SignalRBackend.BAL.dll
 F:\Reenbit\SignalRProject\SignalRBackend.BAL\obj\Debug\netcoreapp3.1\SignalRBackend.BAL.pdb
+D:\ProjectsVS\SignalRProject\SignalRBackend.BAL\bin\Debug\netcoreapp3.1\SignalRBackend.BAL.deps.json
+D:\ProjectsVS\SignalRProject\SignalRBackend.BAL\bin\Debug\netcoreapp3.1\SignalRBackend.BAL.dll
+D:\ProjectsVS\SignalRProject\SignalRBackend.BAL\bin\Debug\netcoreapp3.1\SignalRBackend.BAL.pdb
+D:\ProjectsVS\SignalRProject\SignalRBackend.BAL\obj\Debug\netcoreapp3.1\SignalRBackend.BAL.csproj.AssemblyReference.cache
+D:\ProjectsVS\SignalRProject\SignalRBackend.BAL\obj\Debug\netcoreapp3.1\SignalRBackend.BAL.GeneratedMSBuildEditorConfig.editorconfig
+D:\ProjectsVS\SignalRProject\SignalRBackend.BAL\obj\Debug\netcoreapp3.1\SignalRBackend.BAL.AssemblyInfoInputs.cache
+D:\ProjectsVS\SignalRProject\SignalRBackend.BAL\obj\Debug\netcoreapp3.1\SignalRBackend.BAL.AssemblyInfo.cs
+D:\ProjectsVS\SignalRProject\SignalRBackend.BAL\obj\Debug\netcoreapp3.1\SignalRBackend.BAL.csproj.CoreCompileInputs.cache
+D:\ProjectsVS\SignalRProject\SignalRBackend.BAL\obj\Debug\netcoreapp3.1\SignalRBackend.BAL.dll
+D:\ProjectsVS\SignalRProject\SignalRBackend.BAL\obj\Debug\netcoreapp3.1\SignalRBackend.BAL.pdb
