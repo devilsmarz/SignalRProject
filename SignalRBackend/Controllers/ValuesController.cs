@@ -1,19 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SignalRBackend.DBConfiguration;
 using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace SignalRBackend.Controllers
+namespace SignalRBackend.WEB.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly ApplicationContext _db;
-        public ValuesController(ApplicationContext db)
+        public ValuesController()
         {
-            _db = db;
         }
 
         // GET api/<ValuesController>/5
@@ -39,7 +36,6 @@ namespace SignalRBackend.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            var a = _db.Users.ToList();
         }
     }
 }

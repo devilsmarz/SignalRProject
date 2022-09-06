@@ -17,6 +17,6 @@ export class AppComponent implements OnInit {
 
   public get()
   {
-    this.http.delete('api/Values/5');
+    this.http.delete('api/Values/5').subscribe();
   }
 }

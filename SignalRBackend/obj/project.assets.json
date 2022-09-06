@@ -1764,6 +1764,21 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "SignalRBackend.DAL/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "5.0.17",
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.17",
+          "Microsoft.Extensions.Configuration.Abstractions": "5.0.0"
+        },
+        "compile": {
+          "bin/placeholder/SignalRBackend.DAL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SignalRBackend.DAL.dll": {}
+        }
       }
     }
   },
@@ -6032,13 +6047,19 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "SignalRBackend.DAL/1.0.0": {
+      "type": "project",
+      "path": "../SignalRBackend.DAL/SignalRBackend.DAL.csproj",
+      "msbuildProject": "../SignalRBackend.DAL/SignalRBackend.DAL.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Microsoft.EntityFrameworkCore >= 5.0.17",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.17",
-      "Microsoft.EntityFrameworkCore.Tools >= 5.0.17"
+      "Microsoft.EntityFrameworkCore.Tools >= 5.0.17",
+      "SignalRBackend.DAL >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -6047,9 +6068,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Reenbit\\SignalRProject\\SignalRBackend\\SignalRBackend.csproj",
-      "projectName": "SignalRBackend",
-      "projectPath": "F:\\Reenbit\\SignalRProject\\SignalRBackend\\SignalRBackend.csproj",
+      "projectUniqueName": "F:\\Reenbit\\SignalRProject\\SignalRBackend\\SignalRBackend.WEB.csproj",
+      "projectName": "SignalRBackend.WEB",
+      "projectPath": "F:\\Reenbit\\SignalRProject\\SignalRBackend\\SignalRBackend.WEB.csproj",
       "packagesPath": "C:\\Users\\Егор\\.nuget\\packages\\",
       "outputPath": "F:\\Reenbit\\SignalRProject\\SignalRBackend\\obj\\",
       "projectStyle": "PackageReference",
@@ -6067,7 +6088,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "projectReferences": {}
+          "projectReferences": {
+            "F:\\Reenbit\\SignalRProject\\SignalRBackend.DAL\\SignalRBackend.DAL.csproj": {
+              "projectPath": "F:\\Reenbit\\SignalRProject\\SignalRBackend.DAL\\SignalRBackend.DAL.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
