@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SignalRBackend.DAL.DBConfiguration;
 using SignalRBackend.DAL.Interfaces;
+using SignalRBackend.DAL.Mapping;
 using SignalRBackend.DAL.Services;
 using System;
 using System.Collections.Generic;
