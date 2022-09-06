@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SignalRBackend.DAL.DBConfiguration;
+using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 
 namespace SignalRBackend.DAL.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
+    [DbContext(typeof(DatabaseContext))]
     [Migration("20220906085001_InitialCreate1")]
     partial class InitialCreate1
     {

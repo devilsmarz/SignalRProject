@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "g3RdSqHhE5MGvt/twb8KHB1P3OS++HFGm4Hug5JsjcQvlp4oyrQf/Y3YoyFAGi6lndMlwt/13ukqWGHeQD6Vdw==",
+  "dgSpecHash": "0e9Ttg4hKMYflPrva4XUQWG9RYdAyMJv1+uQvezfsoYr8jkSurwSVD6p9GqzSN2XqncGjbNJVY12lXc74ECpHA==",
   "success": true,
-  "projectFilePath": "F:\\Reenbit\\SignalRProject\\SignalRBackend.BAL\\SignalRBackend.BAL.csproj",
+  "projectFilePath": "F:\\Reenbit\\SignalRProject\\SignalRBackend.BAL\\SignalRBackend.BLL.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

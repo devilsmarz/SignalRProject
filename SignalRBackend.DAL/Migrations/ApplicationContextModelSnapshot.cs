@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SignalRBackend.DAL.DBConfiguration;
+using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 
 namespace SignalRBackend.DAL.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
+    [DbContext(typeof(DatabaseContext))]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

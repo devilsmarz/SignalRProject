@@ -21,6 +21,8 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@microsoft/signalr": "^6.0.8",
+    "@microsoft/signalr-protocol-msgpack": "^6.0.8",
     "jest-editor-support": "*",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

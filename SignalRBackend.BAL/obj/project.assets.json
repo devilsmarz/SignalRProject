@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Reenbit\\SignalRProject\\SignalRBackend.BAL\\SignalRBackend.BAL.csproj",
-      "projectName": "SignalRBackend.BAL",
-      "projectPath": "F:\\Reenbit\\SignalRProject\\SignalRBackend.BAL\\SignalRBackend.BAL.csproj",
+      "projectUniqueName": "F:\\Reenbit\\SignalRProject\\SignalRBackend.BAL\\SignalRBackend.BLL.csproj",
+      "projectName": "SignalRBackend.BLL",
+      "projectPath": "F:\\Reenbit\\SignalRProject\\SignalRBackend.BAL\\SignalRBackend.BLL.csproj",
       "packagesPath": "C:\\Users\\Егор\\.nuget\\packages\\",
       "outputPath": "F:\\Reenbit\\SignalRProject\\SignalRBackend.BAL\\obj\\",
       "projectStyle": "PackageReference",

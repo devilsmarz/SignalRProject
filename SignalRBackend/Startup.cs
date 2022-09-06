@@ -7,7 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using SignalRBackend.DAL.DBConfiguration;
+using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
+using SignalRBackend.WEB.Configurations.HubConfig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,12 +26,20 @@ namespace SignalRBackend.WEB
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             services.AddCors();
             String connection = _configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationContext>(options =>
+            services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(connection));
-            services.AddControllersWithViews();
+            services.AddSignalR().AddMessagePackProtocol();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "SpecificOrigins",
+                                  policy =>
+                                  {
+                                      policy.WithOrigins("https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                                  });
+            });
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -44,13 +53,14 @@ namespace SignalRBackend.WEB
 
             app.UseRouting();
 
-            app.UseCors(builder => builder.AllowAnyOrigin());
+            app.UseCors("SpecificOrigins");
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/signalr");
             });
         }
     }
