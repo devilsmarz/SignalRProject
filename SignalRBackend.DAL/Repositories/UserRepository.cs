@@ -11,5 +11,10 @@ namespace SignalRBackend.DAL.Repositories
     internal class UserRepository : GenericRepository<User> , IUserRepository
     {
         public UserRepository(DatabaseContext context) : base(context) { }
+
+        public User FindUserName(String username)
+        {
+            return Context.Set<User>().Find(username);
+        }
     }
 }
