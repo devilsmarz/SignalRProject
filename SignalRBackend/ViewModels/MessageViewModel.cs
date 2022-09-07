@@ -13,6 +13,6 @@ namespace SignalRBackend.WEB.ViewModels
         [Required]
         [MinLength(1),MaxLength(4096)]
         public String MessageText { get; set; }
-        public DateTime ActivityDate { get; set; }
+        public DateTime? ActivityDate { get; set; }
     }
 }

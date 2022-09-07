@@ -1,0 +1,11 @@
+<form class="example-form">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Login*</mat-label>
+      <input type="email" matInput [formControl]="loginLabel">
+      <mat-hint>Enter your login</mat-hint>
+      <mat-error *ngIf="loginLabel.hasError('required')">
+        Login is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <button mat-button color="primary" [disabled]="loginLabel.invalid" (click)="login()">Login</button>
+  </form>

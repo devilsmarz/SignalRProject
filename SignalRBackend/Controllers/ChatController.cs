@@ -19,7 +19,7 @@ namespace SignalRBackend.WEB.Controllers
             _hub = hub;
         }
 
-        // GET api/<ValuesController>/5
+        // /chat/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -28,7 +28,7 @@ namespace SignalRBackend.WEB.Controllers
         }
 
         [HttpPost]
-        public async Task SendMessage(MessageViewModel message)
+        public async Task SendMessage([FromBody]MessageViewModel message)
         {
             //additional business logic 
 
