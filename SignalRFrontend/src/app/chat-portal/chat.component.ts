@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Message } from 'src/models/message';
 import { SignalrService } from 'src/services/chat-signalr/chat-signalr-service';
@@ -11,8 +11,9 @@ import { SignalrService } from 'src/services/chat-signalr/chat-signalr-service';
 })
 export class ChatComponent implements OnInit {
   title = 'chat-ui';
-  text = new FormControl('', [Validators.required]);
+  text: string = "";
   message: Message | undefined;
+  @ViewChild('message') inputMessage: { nativeElement: { value: string; }; } | undefined; 
 
   constructor(public signalRService: SignalrService) {
   }
@@ -26,14 +27,22 @@ export class ChatComponent implements OnInit {
       id: 1,
       chatId: 1,
       userId: 1,
-      messageText: this.text.value,
+      messageText: this.text,
       activityDate: null,
   };
 
     this.signalRService.sendMessageToApi(this.message).subscribe({
-      next: _ => this.text.setValue(''),
+      next: _ => this.text = '',
       error: (err) => console.error(err)
     });
   }
   
+  public get isMessageValid(): Boolean{
+    if(this.text.length > 0)
+    {
+      return false
+    }
+    return true; 
+
+  }
 }

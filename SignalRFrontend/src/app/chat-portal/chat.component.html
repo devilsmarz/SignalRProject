@@ -1,11 +1,11 @@
 
     <h1>SignalR Chat DEMO</h1>
-    <mat-form-field class="example-full-width" appearance="fill">
+    <mat-form-field novalidate class="example-full-width" appearance="fill">
         <mat-label>Message</mat-label>
-        <input type="text" matInput #message maxlength="4096" [formControl]="text">
+        <input type="text" matInput #message maxlength="4096" [(ngModel)]="text">
         <mat-hint align="end">{{message.value.length}} / 4096</mat-hint>
     </mat-form-field>
-    <button mat-raised-button color="primary" [disabled]="text.invalid" (click)="sendMessage()">Send Message</button>
+    <button mat-raised-button color="primary" [disabled]="isMessageValid" (click)="sendMessage()">Send Message</button>
     <h4>List of Messages</h4>
   
     <div *ngIf="signalRService.messages.length==0">
