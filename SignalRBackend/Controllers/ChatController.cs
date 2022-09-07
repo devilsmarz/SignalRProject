@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SignalRBackend.WEB.Configurations.HubConfig;
 using SignalRBackend.WEB.ViewModels;
@@ -20,14 +21,14 @@ namespace SignalRBackend.WEB.Controllers
         }
 
         // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize]
         public IActionResult Get(int id)
         {
             var a = _hub.Clients.All.SendAsync("chatData", "messages");
             return Ok(new { Message = "Request Completed}" });
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public async Task SendMessage(MessageViewModel message)
         {
             //additional business logic 
@@ -38,13 +39,13 @@ namespace SignalRBackend.WEB.Controllers
         }
 
         // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize]
         public void Delete(int id)
         {
         }

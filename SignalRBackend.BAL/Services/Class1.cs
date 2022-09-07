@@ -1,8 +1,9 @@
 ﻿using System;
 
-namespace SignalRBackend.BAL
+namespace SignalRBackend.BLL.Services
 {
     public class Class1
     {
+
     }
 }
