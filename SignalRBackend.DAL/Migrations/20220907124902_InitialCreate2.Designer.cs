@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 
 namespace SignalRBackend.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220907124902_InitialCreate2")]
+    partial class InitialCreate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,23 +34,6 @@ namespace SignalRBackend.DAL.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("ChatUser");
-
-                    b.HasData(
-                        new
-                        {
-                            ChatsId = 1,
-                            UsersId = 1
-                        },
-                        new
-                        {
-                            ChatsId = 1,
-                            UsersId = 2
-                        },
-                        new
-                        {
-                            ChatsId = 1,
-                            UsersId = 3
-                        });
                 });
 
             modelBuilder.Entity("SignalRBackend.DAL.DomainModels.Chat", b =>
@@ -66,13 +51,6 @@ namespace SignalRBackend.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Chats");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "eff"
-                        });
                 });
 
             modelBuilder.Entity("SignalRBackend.DAL.DomainModels.Message", b =>
@@ -125,7 +103,7 @@ namespace SignalRBackend.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            UserName = "HelloWorld5811"
+                            UserName = "qterRete484"
                         },
                         new
                         {
