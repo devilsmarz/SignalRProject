@@ -29,7 +29,7 @@ namespace SignalRBackend.WEB.Controllers
         }
 
         [HttpPost, Authorize]
-        public async Task SendMessage(MessageViewModel message)
+        public async Task SendMessage([FromBody]MessageViewModel message)
         {
             //additional business logic 
 
