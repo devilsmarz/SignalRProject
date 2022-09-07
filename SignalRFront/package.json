@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@auth0/angular-jwt": "^5.0.2",
     "@microsoft/signalr": "^6.0.8",
     "@microsoft/signalr-protocol-msgpack": "^6.0.8",
     "jest-editor-support": "*",

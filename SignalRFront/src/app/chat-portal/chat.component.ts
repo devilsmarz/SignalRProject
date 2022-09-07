@@ -5,7 +5,7 @@ import { SignalrService } from 'src/shared/chat-signalr/chat-signalr-service';
 
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })

@@ -5,7 +5,13 @@
   "projects": {
     "SignalRFront": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:application": {
+        "strict": true
+      },
+      "@schematics/angular:component": {
+        "style": "scss"}
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -23,8 +29,8 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css"
+              "src/styles.scss",
+              "src/theme.scss"
             ],
             "scripts": []
           },
@@ -94,8 +100,8 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css"
+              "src/styles.scss",
+              "src/theme.scss"
             ],
             "scripts": []
           }
