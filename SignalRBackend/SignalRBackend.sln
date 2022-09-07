@@ -5,9 +5,9 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRBackend.WEB", "SignalRBackend.WEB.csproj", "{9A56632E-02C0-4A32-A19F-A3535AEA66DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRBackend.DAL", "..\SignalRBackend.DAL\SignalRBackend.DAL.csproj", "{FA703D81-6B0A-47DF-8CD5-F15DAB5634C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRBackend.DAL", "..\SignalRBackend.DAL\SignalRBackend.DAL.csproj", "{FA703D81-6B0A-47DF-8CD5-F15DAB5634C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRBackend.BAL", "..\SignalRBackend.BAL\SignalRBackend.BAL.csproj", "{9C17BBA8-5FC2-441C-AE5F-AD24F03A924A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRBackend.BLL", "..\SignalRBackend.BAL\SignalRBackend.BLL.csproj", "{9C17BBA8-5FC2-441C-AE5F-AD24F03A924A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

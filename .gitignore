@@ -1,0 +1,9 @@
+/SignalRBackend/.vs
+/SignalRBackend/bin
+/SignalRBackend/obj
+/SignalRBackend.BAL/bin
+/SignalRBackend.BAL/obj
+/SignalRBackend.DAL/obj
+/SignalRBackend.DAL/bin
+/SignalRFrontend/.vs
+/SignalRFrontend/.vscode

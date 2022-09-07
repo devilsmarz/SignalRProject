@@ -1,4 +1,4 @@
-﻿using SignalRBackend.DAL.Entities;
+﻿using SignalRBackend.DAL.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Text;

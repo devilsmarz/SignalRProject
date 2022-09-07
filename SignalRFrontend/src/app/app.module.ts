@@ -8,6 +8,7 @@ import { BaseUrlInterceptor } from '../shared/interceptors/baseurl-interceptor-s
 import { SharedModule } from './shared.module';
 import { RouterModule, Routes } from '@angular/router';
 import { ChatComponent } from './chat/chat.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // const appRoutes: Routes =[
 //   {path: '', component: ChatComponent}
@@ -23,9 +24,12 @@ import { ChatComponent } from './chat/chat.component';
     HttpClientModule,
     BrowserAnimationsModule, 
     SharedModule, 
+    ReactiveFormsModule,
+    FormsModule,
     // RouterModule.forRoot(appRoutes),
   ],
   providers: [
+    HttpClientModule,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: BaseUrlInterceptor,

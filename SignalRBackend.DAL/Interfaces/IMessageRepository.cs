@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SignalRBackend.DAL.Entities;
+using SignalRBackend.DAL.DomainModels;
 
 namespace SignalRBackend.DAL.Interfaces
 {
