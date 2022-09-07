@@ -21,9 +21,15 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
                     .HasMaxLength(32)
                     .IsRequired(true);
 
-            modelBuilder.Entity<Chat>()
+            modelBuilder.Entity<User>()
                     .Property(s => s.Id)
                     .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<User>().HasData(
+                new User { Id = 1, UserName = "HelloWorld5811" },
+                new User { Id = 2, UserName = "luteroqqvtr985" },
+                new User { Id = 3, UserName = "DOoqart54" }  
+            );
         }
 
         private static void ConfigureChat(ModelBuilder modelBuilder)
@@ -37,6 +43,13 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
             modelBuilder.Entity<Chat>()
                     .Property(s => s.Id)
                     .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Chat>().HasData(new Chat 
+            { Name = "eff", Id = 1 });
+            modelBuilder.Entity<Chat>().HasMany(p => p.Users).WithMany(p => p.Chats).UsingEntity(j => j.HasData(
+                new { ChatsId = 1, UsersId = 1 },
+                new { ChatsId = 1, UsersId = 2 },
+                new { ChatsId = 1, UsersId = 3 }));
         }
         private static void ConfigureMessage(ModelBuilder modelBuilder)
         {

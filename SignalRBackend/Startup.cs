@@ -45,12 +45,13 @@ namespace SignalRBackend.WEB
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DatabaseContext db)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            db.Database.Migrate();
 
             app.UseHttpsRedirection();
 
