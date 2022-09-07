@@ -4,6 +4,7 @@ using SignalRBackend.DAL.DomainModels;
 using SignalRBackend.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SignalRBackend.DAL.Repositories
@@ -12,9 +13,9 @@ namespace SignalRBackend.DAL.Repositories
     {
         public UserRepository(DatabaseContext context) : base(context) { }
 
-        public User FindUserName(String username)
+        public User FindByUserName(String username)
         {
-            return Context.Set<User>().Find(username);
+            return Context.Set<User>().Where(user => user.UserName == username).FirstOrDefault();
         }
     }
 }

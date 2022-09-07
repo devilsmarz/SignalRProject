@@ -18,6 +18,9 @@ using SignalRBackend.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using SignalRBackend.BLL.Interfaces;
+using SignalRBackend.BLL.Services;
+using SignalRBackend.WEB.Configurations.MappingConfig;
 
 namespace SignalRBackend.WEB
 {
@@ -44,7 +47,6 @@ namespace SignalRBackend.WEB
                                       policy.WithOrigins("https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                                   });
             });
-            services.AddControllers();
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -63,7 +65,10 @@ namespace SignalRBackend.WEB
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
                     };
                 });
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAuthorizationService, AuthorizationService>();
+            services.AddAutoMapper(typeof(AutoMappingProfile));
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DatabaseContext db)
@@ -80,9 +85,9 @@ namespace SignalRBackend.WEB
 
             app.UseCors("SpecificOrigins");
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

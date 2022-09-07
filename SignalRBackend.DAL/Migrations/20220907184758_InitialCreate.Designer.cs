@@ -10,7 +10,7 @@ using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 namespace SignalRBackend.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220906084639_InitialCreate")]
+    [Migration("20220907184758_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,11 +34,28 @@ namespace SignalRBackend.DAL.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("ChatUser");
+
+                    b.HasData(
+                        new
+                        {
+                            ChatsId = 1,
+                            UsersId = 1
+                        },
+                        new
+                        {
+                            ChatsId = 1,
+                            UsersId = 2
+                        },
+                        new
+                        {
+                            ChatsId = 1,
+                            UsersId = 3
+                        });
                 });
 
-            modelBuilder.Entity("SignalRBackend.DAL.Entities.Chat", b =>
+            modelBuilder.Entity("SignalRBackend.DAL.DomainModels.Chat", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -51,16 +68,23 @@ namespace SignalRBackend.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Chats");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "eff"
+                        });
                 });
 
-            modelBuilder.Entity("SignalRBackend.DAL.Entities.Message", b =>
+            modelBuilder.Entity("SignalRBackend.DAL.DomainModels.Message", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("ActivityDate")
+                    b.Property<DateTime>("ActivityDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ChatId")
@@ -83,9 +107,9 @@ namespace SignalRBackend.DAL.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("SignalRBackend.DAL.Entities.User", b =>
+            modelBuilder.Entity("SignalRBackend.DAL.DomainModels.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -98,32 +122,49 @@ namespace SignalRBackend.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            UserName = "Ann"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            UserName = "Ludwig"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            UserName = "Alex"
+                        });
                 });
 
             modelBuilder.Entity("ChatUser", b =>
                 {
-                    b.HasOne("SignalRBackend.DAL.Entities.Chat", null)
+                    b.HasOne("SignalRBackend.DAL.DomainModels.Chat", null)
                         .WithMany()
                         .HasForeignKey("ChatsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SignalRBackend.DAL.Entities.User", null)
+                    b.HasOne("SignalRBackend.DAL.DomainModels.User", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SignalRBackend.DAL.Entities.Message", b =>
+            modelBuilder.Entity("SignalRBackend.DAL.DomainModels.Message", b =>
                 {
-                    b.HasOne("SignalRBackend.DAL.Entities.Chat", "Chat")
+                    b.HasOne("SignalRBackend.DAL.DomainModels.Chat", "Chat")
                         .WithMany("Messages")
                         .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SignalRBackend.DAL.Entities.User", "User")
+                    b.HasOne("SignalRBackend.DAL.DomainModels.User", "User")
                         .WithMany("Messages")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -134,12 +175,12 @@ namespace SignalRBackend.DAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SignalRBackend.DAL.Entities.Chat", b =>
+            modelBuilder.Entity("SignalRBackend.DAL.DomainModels.Chat", b =>
                 {
                     b.Navigation("Messages");
                 });
 
-            modelBuilder.Entity("SignalRBackend.DAL.Entities.User", b =>
+            modelBuilder.Entity("SignalRBackend.DAL.DomainModels.User", b =>
                 {
                     b.Navigation("Messages");
                 });

@@ -53,13 +53,16 @@ export class SignalrService {
   }
 
   private addListeners() {
-    this.hubConnection.on("messageReceivedFromApi", (data: Message) => {
+    let that =this;
+    this.hubConnection.on("messageReceivedFromApi", (data: any) => {
+      let messageLowerCase: Message = {id: data.Id, chatId: data.ChatId, activityDate: data.ActivityDate, messageText: data.MessageText, userId: data.UserId}
       console.log("message received from API Controller")
-      this.messages.push(data);
+      that.messages.push(messageLowerCase);
     })
-    this.hubConnection.on("messageReceivedFromHub", (data: Message) => {
+    this.hubConnection.on("messageReceivedFromHub", (data: any) => {
       console.log("message received from Hub")
-      this.messages.push(data);
+      let messageLowerCase: Message = {id: data.Id, chatId: data.ChatId, activityDate: data.ActivityDate, messageText: data.MessageText, userId: data.UserId}
+      that.messages.push(messageLowerCase);
     })
     this.hubConnection.on("newUserConnected", _ => {
       console.log("new user connected")

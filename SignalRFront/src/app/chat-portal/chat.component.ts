@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Message } from 'src/models/message';
-import { SignalrService } from 'src/shared/chat-signalr/chat-signalr-service';
+import { SignalrService } from 'src/services/chat-signalr/chat-signalr-service';
 
 
 @Component({

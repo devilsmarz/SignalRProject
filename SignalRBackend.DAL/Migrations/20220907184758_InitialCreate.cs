@@ -66,7 +66,7 @@ namespace SignalRBackend.DAL.Migrations
                     ChatId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     MessageText = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false),
-                    ActivityDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ActivityDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,6 +84,36 @@ namespace SignalRBackend.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Chats",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "eff" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "UserName" },
+                values: new object[,]
+                {
+                    { 1, "Ann" },
+                    { 2, "Ludwig" },
+                    { 3, "Alex" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ChatUser",
+                columns: new[] { "ChatsId", "UsersId" },
+                values: new object[] { 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "ChatUser",
+                columns: new[] { "ChatsId", "UsersId" },
+                values: new object[] { 1, 2 });
+
+            migrationBuilder.InsertData(
+                table: "ChatUser",
+                columns: new[] { "ChatsId", "UsersId" },
+                values: new object[] { 1, 3 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChatUser_UsersId",

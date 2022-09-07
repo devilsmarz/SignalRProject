@@ -7,6 +7,6 @@ namespace SignalRBackend.DAL.Interfaces
 {
     public interface IUserRepository : IGenericRepository<User>
     {
-        User FindUserName(String username);
+        User FindByUserName(String username);
     }
 }

@@ -4,23 +4,21 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BaseUrlInterceptor } from '../shared/interceptors/baseurl-interceptor-service';
+import { BaseUrlInterceptor } from '../services/interceptors/baseurl-interceptor-service';
 import { SharedModule } from './shared.module';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { ChatComponent } from './chat-portal/chat.component';
 import { JwtModule } from '@auth0/angular-jwt';
-import { AuthGuard } from 'src/shared/authGuard/authGuard';
+import { AuthGuard } from 'src/services/authGuard/authGuard';
+import { tokenGetter } from './shared/functions';
 
  const appRoutes: Routes =[
    {path: '', component: LoginComponent},
-   {path: 'chat', component: ChatComponent, canActivate: [AuthGuard]}
+   {path: 'chat', component: ChatComponent, canActivate: [AuthGuard]},
+   {path: '**', component: LoginComponent }
  ]
-
- export function tokenGetter() { 
-  return localStorage.getItem("jwt"); 
-}
 
 @NgModule({
   declarations: [

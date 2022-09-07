@@ -20,15 +20,16 @@ namespace SignalRBackend.WEB.Controllers
             _hub = hub;
         }
 
-        // GET api/<ValuesController>/5
-        [HttpGet("{id}"), Authorize]
+        [Authorize]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             var a = _hub.Clients.All.SendAsync("chatData", "messages");
             return Ok(new { Message = "Request Completed}" });
         }
 
-        [HttpPost, Authorize]
+        [Authorize]
+        [HttpPost]
         public async Task SendMessage([FromBody]MessageViewModel message)
         {
             //additional business logic 
@@ -38,14 +39,14 @@ namespace SignalRBackend.WEB.Controllers
             //additional business logic 
         }
 
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}"), Authorize]
+        [Authorize]
+        [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}"), Authorize]
+        [Authorize]
+        [HttpDelete("{id}")]
         public void Delete(int id)
         {
         }

@@ -26,9 +26,9 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
                     .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, UserName = "HelloWorld5811" },
-                new User { Id = 2, UserName = "luteroqqvtr985" },
-                new User { Id = 3, UserName = "DOoqart54" }  
+                new User { Id = 1, UserName = "Ann" },
+                new User { Id = 2, UserName = "Ludwig" },
+                new User { Id = 3, UserName = "Alex" }  
             );
         }
 

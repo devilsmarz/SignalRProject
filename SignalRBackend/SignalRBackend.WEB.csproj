@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>exe</OutputType>
     <UserSecretsId></UserSecretsId>
+	<LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SignalRBackend.BAL\SignalRBackend.BLL.csproj" />
     <ProjectReference Include="..\SignalRBackend.DAL\SignalRBackend.DAL.csproj" />
   </ItemGroup>
 

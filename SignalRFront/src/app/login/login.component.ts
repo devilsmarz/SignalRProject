@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     ) {}
 
   public login(){
-    this.http.post<AuthenticatedResponse>("https://localhost:5001/api/auth/login", {login: this.loginLabel.value}, {
+    this.http.post<AuthenticatedResponse>("auth/login", {userName: this.loginLabel.value}, {
         headers: new HttpHeaders({ "Content-Type": "application/json"})
       })
       .subscribe({

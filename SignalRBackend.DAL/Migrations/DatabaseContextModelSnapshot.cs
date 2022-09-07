@@ -9,7 +9,7 @@ using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 namespace SignalRBackend.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    partial class DatabaseContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -125,17 +125,17 @@ namespace SignalRBackend.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            UserName = "HelloWorld5811"
+                            UserName = "Ann"
                         },
                         new
                         {
                             Id = 2,
-                            UserName = "luteroqqvtr985"
+                            UserName = "Ludwig"
                         },
                         new
                         {
                             Id = 3,
-                            UserName = "DOoqart54"
+                            UserName = "Alex"
                         });
                 });
 
