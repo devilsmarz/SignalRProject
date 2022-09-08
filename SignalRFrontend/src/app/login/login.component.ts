@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
       })
       .subscribe({
         next: (response: AuthenticatedResponse) => {
-          const token = response.token;
-          localStorage.setItem("jwt", token); 
+          localStorage.setItem("jwt", response.token); 
+          localStorage.setItem("userId", response.userId.toString()); 
           this.router.navigate(["chat"])
     },
     error: (err: HttpErrorResponse) => alert("Something went wrong")
