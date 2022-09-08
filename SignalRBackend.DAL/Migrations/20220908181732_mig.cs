@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SignalRBackend.DAL.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class mig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,8 @@ namespace SignalRBackend.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ChatType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,8 +66,9 @@ namespace SignalRBackend.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ChatId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    ReceiverId = table.Column<int>(type: "int", nullable: true),
                     MessageText = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false),
-                    ActivityDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ActivityDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()")
                 },
                 constraints: table =>
                 {
@@ -78,6 +80,12 @@ namespace SignalRBackend.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Messages_Users_ReceiverId",
+                        column: x => x.ReceiverId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Messages_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
@@ -87,8 +95,8 @@ namespace SignalRBackend.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "Chats",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "eff" });
+                columns: new[] { "Id", "ChatType", "Name" },
+                values: new object[] { 1, 0, "eff" });
 
             migrationBuilder.InsertData(
                 table: "Users",
@@ -124,6 +132,11 @@ namespace SignalRBackend.DAL.Migrations
                 name: "IX_Messages_ChatId",
                 table: "Messages",
                 column: "ChatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_ReceiverId",
+                table: "Messages",
+                column: "ReceiverId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_UserId",

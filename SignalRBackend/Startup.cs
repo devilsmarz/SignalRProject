@@ -21,6 +21,7 @@ using System.Text;
 using SignalRBackend.BLL.Interfaces;
 using SignalRBackend.BLL.Services;
 using SignalRBackend.WEB.Configurations.MappingConfig;
+using System.Net.Http.Formatting;
 
 namespace SignalRBackend.WEB
 {
@@ -69,6 +70,8 @@ namespace SignalRBackend.WEB
             services.AddScoped<IAuthorizationService, AuthorizationService>();
             services.AddScoped<IMessageService, MessageService>();
             services.AddAutoMapper(typeof(AutoMappingProfile));
+            var jsonFormatter = new JsonMediaTypeFormatter();
+            httpConfiguration.Services.Replace(typeof(IContentNegotiator), new JsonContentNegotiator(jsonFormatter));
             services.AddControllers();
         }
 

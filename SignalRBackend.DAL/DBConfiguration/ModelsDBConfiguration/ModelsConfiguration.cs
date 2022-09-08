@@ -45,7 +45,7 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
                     .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Chat>().HasData(new Chat 
-            { Name = "eff", Id = 1 });
+            { Name = "eff", Id = 1, ChatType = 0 });
             modelBuilder.Entity<Chat>().HasMany(p => p.Users).WithMany(p => p.Chats).UsingEntity(j => j.HasData(
                 new { ChatsId = 1, UsersId = 1 },
                 new { ChatsId = 1, UsersId = 2 },
@@ -71,6 +71,10 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
                    .HasOne(s => s.Receiver)
                    .WithMany(s => s.Messages)
                    .HasForeignKey(s => s.ReceiverId);
+
+            modelBuilder.Entity<Message>()
+                .Navigation(s => s.User)
+                .AutoInclude();
 
         }
     }

@@ -10,8 +10,8 @@ using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 namespace SignalRBackend.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220907184758_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220908181732_mig")]
+    partial class mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -60,6 +60,9 @@ namespace SignalRBackend.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ChatType")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -73,6 +76,7 @@ namespace SignalRBackend.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            ChatType = 0,
                             Name = "eff"
                         });
                 });
@@ -85,7 +89,9 @@ namespace SignalRBackend.DAL.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("ActivityDate")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<int>("ChatId")
                         .HasColumnType("int");
@@ -95,12 +101,17 @@ namespace SignalRBackend.DAL.Migrations
                         .HasMaxLength(4096)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ReceiverId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ChatId");
+
+                    b.HasIndex("ReceiverId");
 
                     b.HasIndex("UserId");
 
@@ -164,13 +175,19 @@ namespace SignalRBackend.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SignalRBackend.DAL.DomainModels.User", "User")
+                    b.HasOne("SignalRBackend.DAL.DomainModels.User", "Receiver")
                         .WithMany("Messages")
+                        .HasForeignKey("ReceiverId");
+
+                    b.HasOne("SignalRBackend.DAL.DomainModels.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Chat");
+
+                    b.Navigation("Receiver");
 
                     b.Navigation("User");
                 });

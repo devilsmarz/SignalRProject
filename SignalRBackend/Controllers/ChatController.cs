@@ -9,6 +9,7 @@ using SignalRBackend.WEB.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -35,8 +36,7 @@ namespace SignalRBackend.WEB.Controllers
         {
             IEnumerable<MessageViewModel> messagearray = _mapper.Map<IEnumerable<MessageViewModel>>(_messageservice.FilterAndGet(chatid, userid));
            
-            var a = _hub.Clients.All.SendAsync("chatData", "messages");
-            return Ok(new { Message = "Request Completed}" });
+            return Ok(messagearray);
         }
 
         [Authorize]
@@ -45,6 +45,7 @@ namespace SignalRBackend.WEB.Controllers
         {
             _messageservice.Add(_mapper.Map<MessageDTO>(message));
             MessageViewModel message2 = _mapper.Map<MessageViewModel>(_messageservice.UpdateAndGet(_mapper.Map<MessageDTO>(message)));
+            string jsonString = JsonSerializer.Serialize(message2);
             await _hub.Clients.All.SendAsync("messageReceivedFromApi", message2);
         }
 

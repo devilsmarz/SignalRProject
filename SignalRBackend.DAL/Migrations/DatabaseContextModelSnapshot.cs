@@ -58,6 +58,9 @@ namespace SignalRBackend.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ChatType")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -71,6 +74,7 @@ namespace SignalRBackend.DAL.Migrations
                         new
                         {
                             Id = 1,
+                            ChatType = 0,
                             Name = "eff"
                         });
                 });
