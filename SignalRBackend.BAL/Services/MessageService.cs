@@ -36,5 +36,19 @@ namespace SignalRBackend.BLL.Services
             _unitOfWork.Message.Update(_mapper.Map<Message>(message));
             _unitOfWork.Save();
         }
+
+        public MessageDTO UpdateAndGet(MessageDTO message)
+        {
+           return _mapper.Map<MessageDTO>(_unitOfWork.Message.UpdateAndGet(_mapper.Map<Message>(message)));
+        }
+
+        public void GetAll(Int32 chatid, Int32 userid)
+        {
+            throw new NotImplementedException();
+        }
+        public IEnumerable<MessageDTO> FilterAndGet(Int32 chatid, Int32 userid)
+        {
+            return _mapper.Map<IEnumerable<MessageDTO>>(_unitOfWork.Message.FilterAndGet(chatid, userid));
+        }
     }
 }

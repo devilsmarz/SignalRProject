@@ -12,5 +12,8 @@ namespace SignalRBackend.BLL.Interfaces
         public void Add(MessageDTO message);
         public void Delete(Int32 id);
         public void Update(MessageDTO message);
+        public MessageDTO UpdateAndGet(MessageDTO message);
+        public void GetAll(Int32 chatid, Int32 userid);
+        public IEnumerable<MessageDTO> FilterAndGet(Int32 chatid, Int32 userid);
     }
 }
