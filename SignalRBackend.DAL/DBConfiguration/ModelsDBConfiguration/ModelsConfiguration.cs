@@ -62,6 +62,10 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
             modelBuilder.Entity<Message>()
                     .Property(s => s.Id)
                     .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Message>()
+                .Property(s => s.ActivityDate)
+                .HasDefaultValueSql("getdate()");
         }
     }
 }

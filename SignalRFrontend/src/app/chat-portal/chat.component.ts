@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit {
 
   sendMessage(): void {
     this.message = {
-      id: 1,
+      id: null,
       chatId: 1,
       userId: 1,
       messageText: this.text,
