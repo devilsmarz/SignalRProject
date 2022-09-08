@@ -7,6 +7,7 @@ using SignalRBackend.BLL.Interfaces;
 using SignalRBackend.WEB.Configurations.HubConfig;
 using SignalRBackend.WEB.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,9 +30,11 @@ namespace SignalRBackend.WEB.Controllers
         }
 
         [Authorize]
-        [HttpGet("{id}")]
-        public IActionResult Get(Int32 id)
+        [HttpGet("{chatid}/{userid}")]
+        public IActionResult GetArray(Int32 chatid, Int32 userid)
         {
+            IEnumerable<MessageViewModel> messagearray = _mapper.Map<IEnumerable<MessageViewModel>>(_messageservice.FilterAndGet(chatid, userid));
+           
             var a = _hub.Clients.All.SendAsync("chatData", "messages");
             return Ok(new { Message = "Request Completed}" });
         }
@@ -40,12 +43,9 @@ namespace SignalRBackend.WEB.Controllers
         [HttpPost]
         public async Task SendMessage([FromBody]MessageViewModel message)
         {
-            //additional business logic 
-
             _messageservice.Add(_mapper.Map<MessageDTO>(message));
-            await _hub.Clients.All.SendAsync("messageReceivedFromApi", message);
-
-            //additional business logic 
+            MessageViewModel message2 = _mapper.Map<MessageViewModel>(_messageservice.UpdateAndGet(_mapper.Map<MessageDTO>(message)));
+            await _hub.Clients.All.SendAsync("messageReceivedFromApi", message2);
         }
 
         [Authorize]
