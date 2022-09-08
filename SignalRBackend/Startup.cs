@@ -67,6 +67,7 @@ namespace SignalRBackend.WEB
                 });
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthorizationService, AuthorizationService>();
+            services.AddScoped<IMessageService, MessageService>();
             services.AddAutoMapper(typeof(AutoMappingProfile));
             services.AddControllers();
         }

@@ -64,6 +64,10 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
                     .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Message>()
+                .Property(s => s.ActivityDate)
+                .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<Message>()
                    .HasOne(s => s.Receiver)
                    .WithMany(s => s.Messages)
                    .HasForeignKey(s => s.ReceiverId);

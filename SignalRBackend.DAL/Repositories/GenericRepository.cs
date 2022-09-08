@@ -25,7 +25,7 @@ namespace SignalRBackend.DAL.Repositories
             Context.Set<T>().Remove(item);
         }
 
-        public T GetId(Int32 id)
+        public T GetById(Int32 id)
         {
             return Context.Set<T>().Find(id);
         }
