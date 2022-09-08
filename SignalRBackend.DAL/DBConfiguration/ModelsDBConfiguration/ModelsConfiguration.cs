@@ -62,6 +62,12 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
             modelBuilder.Entity<Message>()
                     .Property(s => s.Id)
                     .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Message>()
+                   .HasOne(s => s.Receiver)
+                   .WithMany(s => s.Messages)
+                   .HasForeignKey(s => s.ReceiverId);
+
         }
     }
 }

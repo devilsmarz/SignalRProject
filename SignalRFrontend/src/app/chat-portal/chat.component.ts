@@ -12,7 +12,7 @@ import { SignalrService } from 'src/services/chat-signalr/chat-signalr-service';
 export class ChatComponent implements OnInit {
   title = 'chat-ui';
   text: string = "";
-  message: Message | undefined;
+  message: Message = new Message();
   @ViewChild('message') inputMessage: { nativeElement: { value: string; }; } | undefined; 
 
   constructor(public signalRService: SignalrService) {
@@ -23,16 +23,12 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage(): void {
-    this.message = {
-      id: 1,
-      chatId: 1,
-      userId: 1,
-      messageText: this.text,
-      activityDate: null,
-  };
+    //Need to be removed
+    this.message.messageText = this.text;
+    //
 
     this.signalRService.sendMessageToApi(this.message).subscribe({
-      next: _ => this.text = '',
+      next: _ => {this.text = ''; this.message = new Message();},
       error: (err) => console.error(err)
     });
   }

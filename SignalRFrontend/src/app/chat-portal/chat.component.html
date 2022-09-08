@@ -1,5 +1,4 @@
-
-    <h1>SignalR Chat DEMO</h1>
+    <!-- <h1>SignalR Chat DEMO</h1>
     <mat-form-field novalidate class="example-full-width" appearance="fill">
         <mat-label>Message</mat-label>
         <input type="text" matInput #message maxlength="4096" [(ngModel)]="text">
@@ -17,5 +16,31 @@
         <div><strong>Date</strong> {{m.activityDate}}</div>
         <div><strong>Message</strong> {{m.messageText}}</div>
         <hr>
+      </div> -->
+    <body>
+      <div class="navbar">
+        
       </div>
-    </div>
+
+      <div class="main">
+        <div class="side-menu">
+          <a class="room-button">Room</a>
+        <a class="room-button">+</a>
+      </div>
+        <div class="chat">
+          <div class="chat-body">
+            <div *ngFor="let m of signalRService.messages">
+              <div class="message">
+                <header>{{m.user?.userName}}</header>
+                <p> {{m.messageText}}</p>
+                <footer>{{m.activityDate}}</footer>
+              </div>
+            </div>
+          </div>
+          <div class="chat-input">
+            <input type="text" maxlength="4096" [(ngModel)]="text">
+            <button [disabled]="isMessageValid" (click)="sendMessage()">Send</button>
+          </div>
+        </div>
+      </div>
+    </body>
