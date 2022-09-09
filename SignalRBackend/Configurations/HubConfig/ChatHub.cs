@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using SignalRBackend.WEB.Configurations.Interfaces;
-using SignalRBackend.WEB.ViewModels;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using System;
 
 namespace SignalRBackend.WEB.Configurations.HubConfig
 {
-    public class ChatHub: Hub<IChatHub>
+    public class ChatHub: Hub
     {
-        public string GetConnectionId()
+        public String GetConnectionId()
         {
             return Context.ConnectionId;
         }

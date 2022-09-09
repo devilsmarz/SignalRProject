@@ -38,7 +38,16 @@ namespace SignalRBackend.WEB
             String connection = _configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(connection));
+           
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAuthorizationService, AuthorizationService>();
+            services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IChatService, ChatService>();
+            services.AddAutoMapper(typeof(AutoMappingProfile));
+            services.AddControllers();
+
             services.AddSignalR().AddMessagePackProtocol();
+
             services.AddCors(options =>
             {
                 options.AddPolicy(name: "SpecificOrigins",
@@ -47,30 +56,25 @@ namespace SignalRBackend.WEB
                                       policy.WithOrigins("https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                                   });
             });
+
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = "https://localhost:5001",
-                        ValidAudience = "https://localhost:5001",
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
-                    };
-                });
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IAuthorizationService, AuthorizationService>();
-            services.AddScoped<IMessageService, MessageService>();
-            services.AddScoped<IChatService, ChatService>();
-            services.AddAutoMapper(typeof(AutoMappingProfile));
-            services.AddControllers();
+               .AddJwtBearer(options =>
+               {
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuer = true,
+                       ValidateAudience = true,
+                       ValidateLifetime = true,
+                       ValidateIssuerSigningKey = true,
+                       ValidIssuer = "https://localhost:5001",
+                       ValidAudience = "https://localhost:5001",
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
+                   };
+               });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DatabaseContext db)
