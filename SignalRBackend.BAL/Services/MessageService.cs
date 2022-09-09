@@ -5,6 +5,7 @@ using SignalRBackend.DAL.DomainModels;
 using SignalRBackend.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,44 +21,54 @@ namespace SignalRBackend.BLL.Services
             _mapper = mapper;
         }
 
-        public void Delete(Int32 id, Boolean onlyme)
+        public void DeleteMessage(MessageDTO message)
         {
-            if (onlyme == false)
+            Message messageDB = _mapper.Map<Message>(message);
+            if (message.IsDeletedForMe == false)
             {
-                _unitOfWork.Message.Delete(_unitOfWork.Message.GetById(id));
+                _unitOfWork.Message.Delete(messageDB);
             }
             else
             {
-                _unitOfWork.Message.GetById(id).IsDeletedForMe = true;
+                _unitOfWork.Message.AttachEntity(messageDB);
+                messageDB.IsDeletedForMe = true;
             }
             _unitOfWork.Save();
         }
 
-        public void Add(MessageDTO message)
-        {
-            _unitOfWork.Message.Add(_mapper.Map<Message>(message));
-            _unitOfWork.Save();
-        }
-
-        public void Update(MessageDTO message)
+        public void UpdateMessage(MessageDTO message)
         {
             _unitOfWork.Message.Update(_mapper.Map<Message>(message));
             _unitOfWork.Save();
         }
 
-        public MessageDTO InsertOrUpdateAndGet(MessageDTO message)
+        public MessageDTO AddMessage(MessageDTO message)
         {
-           return _mapper.Map<MessageDTO>(_unitOfWork.Message.InsertOrUpdateAndGet(_mapper.Map<Message>(message)));
+            Message messageDB = _mapper.Map<Message>(message);
+            _unitOfWork.Message.Add(_mapper.Map<Message>(messageDB));
+            _unitOfWork.Save();
+            MessageDTO result = _mapper.Map<MessageDTO>(messageDB);
+            return result;
         }
 
-        public async Task<IEnumerable<MessageDTO>> GetMessages(Int32 chatid, Int32 userid)
+        public async Task<PageInfoDTO> TakeMessages(Int32? page, Int32 userid, Int32 chatid)
         {
-            return _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.GetMessages(chatid, userid));
-        }
+            IEnumerable<MessageDTO> messages = _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.TakeMessages(userid, chatid));
 
-        public async Task<ChatInfoDTO> TakeMessages(int page, Int32 userid, Int32 chatid)
-        {
-            return _mapper.Map<ChatInfoDTO>(await _unitOfWork.Message.TakeMessages(page, userid, chatid));
+            Int32 numOfMessages = messages.Count();
+            Int32 totalPages = numOfMessages % 20 == 0 ? numOfMessages / 20 : (numOfMessages / 20) + 1;
+
+            return page != null 
+                ? new PageInfoDTO
+                {
+                    CurrentPageNumber = (Int32)page,
+                    Messages = messages.Skip(((Int32)page - 1) * 20),
+                }
+                : new PageInfoDTO
+                {
+                    CurrentPageNumber = totalPages,
+                    Messages = messages.Skip((totalPages-1)*20),
+                };
         }
     }
 }

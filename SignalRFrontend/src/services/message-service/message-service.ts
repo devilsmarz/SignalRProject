@@ -23,8 +23,8 @@ export class MessageService {
     return this.http.put(this.apiUrl, message);
   }
 
-  public getMessages(chatId: number){
-    this.http.get<Message[]>(`${this.apiUrl}/${chatId}/${localStorage.getItem("userId")}`)
+  public getMessages(chatId: number, page: number | null){
+    this.http.get<Message[]>(`${this.apiUrl}/${chatId}/${localStorage.getItem("userId")}/${page}`)
         .subscribe(messages => this.messages = messages);
   }
 

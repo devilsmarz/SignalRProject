@@ -16,5 +16,10 @@ namespace SignalRBackend.WEB.Configurations.HubConfig
         {
             return Groups.AddToGroupAsync(Context.ConnectionId, chatId);
         }
+
+        public Task LeaveRoom(String chatId)
+        {
+            return Groups.RemoveFromGroupAsync(Context.ConnectionId, chatId);
+        }
     }
 }

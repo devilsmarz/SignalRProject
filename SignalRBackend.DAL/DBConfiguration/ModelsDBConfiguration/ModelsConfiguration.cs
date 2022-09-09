@@ -17,13 +17,13 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
         private static void ConfigureUser(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
-                    .Property(s => s.UserName)
-                    .HasMaxLength(32)
-                    .IsRequired(true);
+                .Property(s => s.UserName)
+                .HasMaxLength(32)
+                .IsRequired(true);
 
             modelBuilder.Entity<User>()
-                    .Property(s => s.Id)
-                    .ValueGeneratedOnAdd();
+                .Property(s => s.Id)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<User>().HasData(
                 new User { Id = 1, UserName = "Ann" },
@@ -35,14 +35,14 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
         private static void ConfigureChat(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Chat>()
-                    .Property(s => s.Name)
-                    .HasMaxLength(128)
-                    .IsRequired(true);
+                .Property(s => s.Name)
+                .HasMaxLength(128)
+                .IsRequired(true);
 
 
             modelBuilder.Entity<Chat>()
-                    .Property(s => s.Id)
-                    .ValueGeneratedOnAdd();
+                .Property(s => s.Id)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Chat>().HasData(
                 new Chat { Name = "GroupChat", Id = 1, ChatType = 0 },
@@ -67,28 +67,33 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
         private static void ConfigureMessage(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Message>()
-                    .Property(s => s.MessageText)
-                    .HasMaxLength(4096)
-                    .IsRequired(true);
+                .Property(s => s.MessageText)
+                .HasMaxLength(4096)
+                .IsRequired(true);
 
 
             modelBuilder.Entity<Message>()
-                    .Property(s => s.Id)
-                    .ValueGeneratedOnAdd();
+                .Property(s => s.Id)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Message>()
                 .Property(s => s.ActivityDate)
                 .HasDefaultValueSql("getdate()");
 
             modelBuilder.Entity<Message>()
-                   .HasOne(s => s.Receiver)
-                   .WithMany(s => s.Messages)
-                   .HasForeignKey(s => s.ReceiverId);
+                .HasOne(s => s.Receiver)
+                .WithMany(s => s.Messages)
+                .HasForeignKey(s => s.ReceiverId);
 
             modelBuilder.Entity<Message>()
-                .Navigation(s => s.User)
-                .AutoInclude();
+                .Property(s => s.IsDeletedForMe)
+                .HasDefaultValue(false)
+                .IsRequired(true);
 
+            modelBuilder.Entity<Message>()
+               .Property(s => s.UserName)
+               .HasMaxLength(32)
+               .IsRequired(true);
         }
     }
 }

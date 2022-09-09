@@ -29,40 +29,31 @@ namespace SignalRBackend.WEB.Controllers
             _messageservice = messageservice;
         }
 
-        [HttpGet("{chatid}/{userid}")]
-        public async Task<IActionResult> GetMessages(Int32 chatid, Int32 userid)
-        {
-            IEnumerable<MessageViewModel> messagearray = _mapper.Map<IEnumerable<MessageViewModel>>(await _messageservice.GetMessages(chatid, userid));
-
-            return Ok(messagearray);
-        }
-
         [HttpPost]
         public async Task<IActionResult> SendMessage([FromBody] MessageViewModel message)
         {
-            _messageservice.Add(_mapper.Map<MessageDTO>(message));
-            MessageViewModel messageFromDb = _mapper.Map<MessageViewModel>(_messageservice.InsertOrUpdateAndGet(_mapper.Map<MessageDTO>(message)));
+            MessageViewModel messageFromDb = _mapper.Map<MessageViewModel>(_messageservice.AddMessage(_mapper.Map<MessageDTO>(message)));
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, ContractResolver = new CamelCasePropertyNamesContractResolver()};
             await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveMessage", JsonConvert.SerializeObject(messageFromDb, jsonSerializerSettings));
-           // await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveMessage", messageFromDb);
             return Ok();
         }
 
         [HttpPut]
         public void UpdateMessage([FromBody] MessageViewModel message)
         {
-            _messageservice.Update(_mapper.Map<MessageDTO>(message));
+            _messageservice.UpdateMessage(_mapper.Map<MessageDTO>(message));
         }
 
-        [HttpDelete("{id}/{onlyme}")]
-        public void Delete(Int32 id, Boolean onlyme)
+        [HttpDelete]
+        public void Delete([FromBody] MessageViewModel message)
         {
-            _messageservice.Delete(id,onlyme);
+            _messageservice.DeleteMessage(_mapper.Map<MessageDTO>(message));
         }
-        [HttpGet("TakeMessages/{page}/{userid}/{chatid}")]
-        public async Task<IActionResult> TakeMessages(Int32 page, Int32 userid, Int32 chatid)
+
+        [HttpGet("{userid}/{chatid}/{page}")]
+        public async Task<IActionResult> TakeMessages(Int32 userid, Int32 chatid, Int32? page = null)
         {
-            ChatInfoViewModel chatinfo = _mapper.Map<ChatInfoViewModel>(await _messageservice.TakeMessages(page, userid, chatid));
+            PageInfoViewModel chatinfo = _mapper.Map<PageInfoViewModel>(await _messageservice.TakeMessages(page, userid, chatid));
             return Ok(chatinfo);
         }
     }

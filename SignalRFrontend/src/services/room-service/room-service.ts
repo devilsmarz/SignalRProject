@@ -37,7 +37,6 @@ export class RoomService {
     this.hubConnection.start()
       .then(() => this.hubConnection.invoke("getConnectionId")
       .then((connectionId) => {this.connectionId = connectionId; 
-        this.isConnected = true; 
         this.chatService.getChats();
       })
       )
@@ -47,17 +46,23 @@ export class RoomService {
   private addListeners() {
     this.hubConnection.on("ReceiveMessage", (data: string) => {
       let message: Message = JSON.parse(data); 
-      this.messageService.messages.push(message);
+      if(this.messageService.messages.length < 20)
+      {
+        this.messageService.messages.push(message);
+      }
     })
   }
-  // public joinRoom(chat: Chat){
-  //   this.http.post(`Room/JoinRoom/${this.connectionId}/${chat.name}`,{});
-  //   this.messageService.getMessages(chat.id ?? -1);
-  // }
+  public leaveRoom(chatId: number){
+    var promise = this.hubConnection.invoke("leaveRoom", chatId?.toString())
+    .then(() => { console.log('Join group sent successfully to hub'); this.isConnected = false;})
+    .catch((err) => console.log('error while sending a join to group in hub: ' + err));
 
-  public joinRoom(chat: Chat) {
-    var promise = this.hubConnection.invoke("joinRoom", chat.id?.toString())
-      .then(() => { console.log('Join group sent successfully to hub'); })
+  return from(promise);
+  }
+
+  public joinRoom(chatId: number) {
+    var promise = this.hubConnection.invoke("joinRoom", chatId.toString())
+      .then(() => { console.log('Join group sent successfully to hub'); this.isConnected = true;})
       .catch((err) => console.log('error while sending a join to group in hub: ' + err));
 
     return from(promise);
@@ -67,7 +72,7 @@ export class RoomService {
     return this.messageService.sendMessage(message);
   }
   
-  public getMessages(chatId: number){
-    return this.messageService.getMessages(chatId);
+  public getMessages(chatId: number, page: number | null){
+    return this.messageService.getMessages(chatId, page);
   }
 }

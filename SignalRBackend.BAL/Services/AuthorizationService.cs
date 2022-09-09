@@ -46,7 +46,7 @@ namespace SignalRBackend.BLL.Services
 
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
 
-                return  new AuthenticatedResponseDTO {Token = tokenString, UserId = (Int32)user.Id};
+                return  new AuthenticatedResponseDTO {UserId = (Int32)user.Id, Token = tokenString, UserName =user.UserName};
             }
 
             return null;

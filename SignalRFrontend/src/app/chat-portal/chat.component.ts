@@ -15,6 +15,9 @@ export class ChatComponent implements OnInit {
   title = 'chat-ui';
   text: string = "";
   message: Message = new Message();
+  totalMessages: number = 0;
+  page: number | null = null;
+  chatId: number = -1;
 
   constructor(public roomService: RoomService) {
   }
@@ -26,8 +29,8 @@ export class ChatComponent implements OnInit {
   sendMessage(): void {
     //Need to be removed
     this.message.messageText = this.text;
-    this.message.chatId = 1;
     this.message.userId = Number.parseInt(localStorage.getItem("userId") ?? "-1");
+    this.message.userName = localStorage.getItem("userName");
     //
 
     this.roomService.sendMessage(this.message).subscribe({
@@ -36,9 +39,11 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  joinRoom(chat: Chat){
-    this.roomService.joinRoom(chat);
-    this.roomService.getMessages(chat.id ?? -1);
+  joinRoom(newChatId: number){
+    if(this.chatId != -1){this.roomService.leaveRoom(this.chatId); this.roomService.messageService.messages = []}
+    this.roomService.joinRoom(newChatId);
+    this.roomService.getMessages(newChatId, this.page);
+    this.chatId = newChatId;
   }
   
   public get isMessageValid(): Boolean{
@@ -47,6 +52,21 @@ export class ChatComponent implements OnInit {
       return false
     }
     return true; 
+  }
 
+  public get isAvailableNextPage(): Boolean{
+    if(this.roomService.messageService.messages.length < 20)
+    {
+      return false
+    }
+    return false; 
+  }
+
+  public get isAvailablePreviousPage(): Boolean{
+    if(this.page ?? 0 > 0)
+    {
+      return true
+    }
+    return false; 
   }
 }

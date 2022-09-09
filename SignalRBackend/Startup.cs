@@ -23,6 +23,7 @@ using SignalRBackend.BLL.Services;
 using SignalRBackend.WEB.Configurations.MappingConfig;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.OpenApi.Models;
 
 namespace SignalRBackend.WEB
 {
@@ -81,6 +82,36 @@ namespace SignalRBackend.WEB
                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
                    };
                });
+            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Implement Swagger UI",
+                    Description = "A simple example to Implement Swagger UI",
+                });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme {
+                             Reference = new OpenApiReference {
+                                  Type = ReferenceType.SecurityScheme,
+                                  Id = "Bearer"
+                             }
+                        },
+                        new string[] {}
+                    }
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DatabaseContext db)
@@ -100,6 +131,11 @@ namespace SignalRBackend.WEB
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Showing API V1");
+            });
 
             app.UseEndpoints(endpoints =>
             {

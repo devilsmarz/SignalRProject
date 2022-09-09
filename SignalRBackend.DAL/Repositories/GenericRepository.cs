@@ -25,7 +25,7 @@ namespace SignalRBackend.DAL.Repositories
             Context.Set<T>().Remove(item);
         }
 
-        public T GetById(Int32 id)
+        public virtual T GetById(Int32 id)
         {
             return Context.Set<T>().Find(id);
         }
@@ -33,6 +33,11 @@ namespace SignalRBackend.DAL.Repositories
         public void Update(T item)
         {
             Context.Set<T>().Update(item);
+        }
+
+        public void AttachEntity(T item)
+        {
+            Context.Set<T>().Attach(item);
         }
     }
 }

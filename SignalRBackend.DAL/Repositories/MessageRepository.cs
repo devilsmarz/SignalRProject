@@ -14,34 +14,22 @@ namespace SignalRBackend.DAL.Repositories
     internal class MessageRepository : GenericRepository<Message> , IMessageRepository
     {
         public MessageRepository(DatabaseContext context) : base(context) { }
-        public Message InsertOrUpdateAndGet(Message message)
+
+        public override Message GetById(Int32 id)
         {
-            Message messageDB = Context.Set<Message>().Update(message).Entity;
-            var messages = Context.Set<Message>().Include(message => message.User).Include(message => message.Chat).ToList();
-            return messageDB;
+            return Context.Messages.Where(message => message.Id == id).Include(message => message.User).FirstOrDefault();
         }
-        public async Task<IEnumerable<Message>> GetMessages(Int32 chatid, Int32 userid)
+
+        public async Task<IEnumerable<Message>> TakeMessages(Int32 userid, Int32 chatid)
         {
-            IEnumerable<Message> messages = await Context.Messages.Where(s => s.ChatId == chatid && s.UserId == userid).ToListAsync();
-            return messages;
+            return await Context.Messages.Where(s => s.ChatId == chatid && (s.IsDeletedForMe == false || (s.UserId != userid))).ToListAsync();
         }
-        public async Task<ChatInfo> TakeMessages(Int32 page, Int32 userid, Int32 chatid)
+
+        public void DeleteById(Int32 id)
         {
-            ChatInfo chatinfo = new ChatInfo();
-            chatinfo.CurrentPageNumber = page;
-            chatinfo.MessagesOnPage = Context.Messages
-                .Where(s => s.ChatId == chatid && (s.IsDeletedForMe == false || (s.UserId != userid)))
-                .Skip(page - 1 * 20)
-                .Take(20);
-            
-            Context.Messages.Where(s => s.ChatId == chatid && s.UserId == userid).Count()) % 20 == 0 ?
-            chatinfo.TotalPages = Convert.ToInt32(
-                Math.Ceiling(
-                    Convert.ToDouble(
-                        Context.Messages
-                        .Where(s => s.ChatId == chatid && s.UserId == userid)
-                        .Count())/20));
-            return chatinfo;
+            Message message = new Message() { Id = id };
+            Context.Messages.Attach(message);
+            Context.Messages.Remove(message);           
         }
     }
 }

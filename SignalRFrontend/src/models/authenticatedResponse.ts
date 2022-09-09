@@ -1,4 +1,5 @@
 export interface AuthenticatedResponse{
-  token: string;
   userId: number;
+  token: string;
+  userName: string;
 }

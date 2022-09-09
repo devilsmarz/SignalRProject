@@ -8,6 +8,8 @@ namespace SignalRBackend.DAL.DomainModels
         public Int32 ChatId { get; set; }
         public Int32 UserId { get; set; }
         public Int32? ReceiverId { get; set; }
+        public String UserName { get; set; }
+
         public Boolean IsDeletedForMe = false;
         public String MessageText { get; set; }
         public DateTime ActivityDate { get; set; }

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace SignalRBackend.BLL.DTO
+namespace SignalRBackend.WEB.ViewModels
 {
-    public class ChatInfoDTO
+    public class PageInfoViewModel
     {
         public Int32 TotalPages { get; set; }
         public Int32 CurrentPageNumber { get; set; }
-        IEnumerable<MessageDTO> MessagesOnPage { get; set; }
+        IEnumerable<MessageViewModel> MessagesOnPage { get; set; }
     }
 }
