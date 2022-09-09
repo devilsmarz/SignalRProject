@@ -10,6 +10,6 @@ namespace SignalRBackend.DAL.Interfaces
     {
         public Message InsertOrUpdateAndGet(Message message);
         public Task<IEnumerable<Message>> GetMessages(Int32 chatid, Int32 userid);
-        public Task<IEnumerable<Message>> UploadUpper(Int32 id);
+        public Task<IEnumerable<Message>> TakeMessages(Int32 page, Int32 userid, Int32 chatid);
     }
 }

@@ -55,9 +55,9 @@ namespace SignalRBackend.BLL.Services
             return _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.GetMessages(chatid, userid));
         }
 
-        public async Task<IEnumerable<MessageDTO>> UploadUpper(int id)
+        public async Task<IEnumerable<MessageDTO>> TakeMessages(int page, Int32 userid, Int32 chatid)
         {
-            return _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.UploadUpper(id));
+            return _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.TakeMessages(page, userid, chatid));
         }
     }
 }

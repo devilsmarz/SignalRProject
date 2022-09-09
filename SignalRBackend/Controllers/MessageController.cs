@@ -59,10 +59,10 @@ namespace SignalRBackend.WEB.Controllers
         {
             _messageservice.Delete(id,onlyme);
         }
-        [HttpGet("UploadUpper/{id}")]
-        public async Task<IActionResult> UploadUpper(Int32 id)
+        [HttpGet("TakeMessages/{page}/{userid}/{chatid}")]
+        public async Task<IActionResult> TakeMessages(Int32 page, Int32 userid, Int32 chatid)
         {
-            IEnumerable<MessageViewModel> messagearray = _mapper.Map<IEnumerable<MessageViewModel>>(await _messageservice.UploadUpper(id));
+            IEnumerable<MessageViewModel> messagearray = _mapper.Map<IEnumerable<MessageViewModel>>(await _messageservice.TakeMessages(page, userid, chatid));
             return Ok(messagearray);
         }
     }
