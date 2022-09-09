@@ -62,8 +62,8 @@ namespace SignalRBackend.WEB.Controllers
         [HttpGet("TakeMessages/{page}/{userid}/{chatid}")]
         public async Task<IActionResult> TakeMessages(Int32 page, Int32 userid, Int32 chatid)
         {
-            IEnumerable<MessageViewModel> messagearray = _mapper.Map<IEnumerable<MessageViewModel>>(await _messageservice.TakeMessages(page, userid, chatid));
-            return Ok(messagearray);
+            ChatInfoViewModel chatinfo = _mapper.Map<ChatInfoViewModel>(await _messageservice.TakeMessages(page, userid, chatid));
+            return Ok(chatinfo);
         }
     }
 }

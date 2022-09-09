@@ -25,14 +25,23 @@ namespace SignalRBackend.DAL.Repositories
             IEnumerable<Message> messages = await Context.Messages.Where(s => s.ChatId == chatid && s.UserId == userid).ToListAsync();
             return messages;
         }
-        public async Task<IEnumerable<Message>> TakeMessages(Int32 page, Int32 userid, Int32 chatid)
+        public async Task<ChatInfo> TakeMessages(Int32 page, Int32 userid, Int32 chatid)
         {
-            IEnumerable<Message> messagelist = await Context.Messages
+            ChatInfo chatinfo = new ChatInfo();
+            chatinfo.CurrentPageNumber = page;
+            chatinfo.MessagesOnPage = Context.Messages
                 .Where(s => s.ChatId == chatid && (s.IsDeletedForMe == false || (s.UserId != userid)))
                 .Skip(page - 1 * 20)
-                .Take(20)
-                .ToListAsync();
-            return messagelist;
+                .Take(20);
+            
+            Context.Messages.Where(s => s.ChatId == chatid && s.UserId == userid).Count()) % 20 == 0 ?
+            chatinfo.TotalPages = Convert.ToInt32(
+                Math.Ceiling(
+                    Convert.ToDouble(
+                        Context.Messages
+                        .Where(s => s.ChatId == chatid && s.UserId == userid)
+                        .Count())/20));
+            return chatinfo;
         }
     }
 }
