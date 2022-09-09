@@ -35,7 +35,7 @@ namespace SignalRBackend.WEB.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendMessage(String message)
+        public async Task<IActionResult> SendMessage([FromBody] MessageViewModel message)
         {
             //_messageservice.Add(_mapper.Map<MessageDTO>(message));
             //MessageViewModel messageFromDb = _mapper.Map<MessageViewModel>(_messageservice.InsertOrUpdateAndGet(_mapper.Map<MessageDTO>(message)));

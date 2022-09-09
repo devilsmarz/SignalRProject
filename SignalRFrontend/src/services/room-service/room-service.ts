@@ -17,7 +17,7 @@ export class RoomService {
   private connectionId = "";
   public isConnected = false;
 
-  constructor(private http: HttpClient, public chatService: ChatService, public messageService: MessageService) { this.hubConnection = this.getConnection(); this.connect();}
+  constructor(private http: HttpClient, public chatService: ChatService, public messageService: MessageService) { this.hubConnection = this.getConnection();}
 
   public connect = () => {
     this.startConnection();
@@ -46,6 +46,7 @@ export class RoomService {
   private addListeners() {
     this.hubConnection.on("ReceiveMessage", (data: Message) => {
       const message = data;
+      this.messageService.messages.push(data);
     })
   }
   public joinRoom(chat: Chat){
