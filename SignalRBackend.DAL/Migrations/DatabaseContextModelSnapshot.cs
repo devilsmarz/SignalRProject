@@ -48,6 +48,36 @@ namespace SignalRBackend.DAL.Migrations
                         {
                             ChatsId = 1,
                             UsersId = 3
+                        },
+                        new
+                        {
+                            ChatsId = 2,
+                            UsersId = 1
+                        },
+                        new
+                        {
+                            ChatsId = 2,
+                            UsersId = 2
+                        },
+                        new
+                        {
+                            ChatsId = 3,
+                            UsersId = 2
+                        },
+                        new
+                        {
+                            ChatsId = 3,
+                            UsersId = 3
+                        },
+                        new
+                        {
+                            ChatsId = 4,
+                            UsersId = 1
+                        },
+                        new
+                        {
+                            ChatsId = 4,
+                            UsersId = 3
                         });
                 });
 
@@ -75,7 +105,25 @@ namespace SignalRBackend.DAL.Migrations
                         {
                             Id = 1,
                             ChatType = 0,
-                            Name = "eff"
+                            Name = "GroupChat"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ChatType = 1,
+                            Name = "PrivateChat"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ChatType = 1,
+                            Name = "PrivateChat"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ChatType = 1,
+                            Name = "PrivateChat"
                         });
                 });
 

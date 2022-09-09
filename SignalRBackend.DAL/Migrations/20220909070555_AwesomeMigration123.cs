@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SignalRBackend.DAL.Migrations
 {
-    public partial class mig : Migration
+    public partial class AwesomeMigration123 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -96,7 +96,13 @@ namespace SignalRBackend.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "Chats",
                 columns: new[] { "Id", "ChatType", "Name" },
-                values: new object[] { 1, 0, "eff" });
+                values: new object[,]
+                {
+                    { 1, 0, "GroupChat" },
+                    { 2, 1, "PrivateChat" },
+                    { 3, 1, "PrivateChat" },
+                    { 4, 1, "PrivateChat" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
@@ -111,17 +117,18 @@ namespace SignalRBackend.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "ChatUser",
                 columns: new[] { "ChatsId", "UsersId" },
-                values: new object[] { 1, 1 });
-
-            migrationBuilder.InsertData(
-                table: "ChatUser",
-                columns: new[] { "ChatsId", "UsersId" },
-                values: new object[] { 1, 2 });
-
-            migrationBuilder.InsertData(
-                table: "ChatUser",
-                columns: new[] { "ChatsId", "UsersId" },
-                values: new object[] { 1, 3 });
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 1 },
+                    { 4, 1 },
+                    { 1, 2 },
+                    { 2, 2 },
+                    { 3, 2 },
+                    { 1, 3 },
+                    { 3, 3 },
+                    { 4, 3 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChatUser_UsersId",

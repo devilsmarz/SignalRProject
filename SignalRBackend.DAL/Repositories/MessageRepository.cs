@@ -25,5 +25,15 @@ namespace SignalRBackend.DAL.Repositories
             IEnumerable<Message> messages = await Context.Messages.Where(s => s.ChatId == chatid && s.UserId == userid).ToListAsync();
             return messages;
         }
+        public async Task<IEnumerable<Message>> UploadUpper(Int32 id)
+        {
+            IEnumerable<Message> messagelist = Context.Messages
+                .Where(s => s.ChatId == GetById(id).ChatId);
+            IEnumerable<Message> messages = await Context.Messages
+                .Skip(messagelist.ToList<Message>().IndexOf(GetById(id)) + 1)
+                .Take(20)
+                .ToListAsync();
+            return messages;
+        }
     }
 }

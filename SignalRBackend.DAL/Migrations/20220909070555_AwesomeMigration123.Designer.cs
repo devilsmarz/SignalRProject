@@ -10,8 +10,8 @@ using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 namespace SignalRBackend.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220908181732_mig")]
-    partial class mig
+    [Migration("20220909070555_AwesomeMigration123")]
+    partial class AwesomeMigration123
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,6 +50,36 @@ namespace SignalRBackend.DAL.Migrations
                         {
                             ChatsId = 1,
                             UsersId = 3
+                        },
+                        new
+                        {
+                            ChatsId = 2,
+                            UsersId = 1
+                        },
+                        new
+                        {
+                            ChatsId = 2,
+                            UsersId = 2
+                        },
+                        new
+                        {
+                            ChatsId = 3,
+                            UsersId = 2
+                        },
+                        new
+                        {
+                            ChatsId = 3,
+                            UsersId = 3
+                        },
+                        new
+                        {
+                            ChatsId = 4,
+                            UsersId = 1
+                        },
+                        new
+                        {
+                            ChatsId = 4,
+                            UsersId = 3
                         });
                 });
 
@@ -77,7 +107,25 @@ namespace SignalRBackend.DAL.Migrations
                         {
                             Id = 1,
                             ChatType = 0,
-                            Name = "eff"
+                            Name = "GroupChat"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ChatType = 1,
+                            Name = "PrivateChat"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ChatType = 1,
+                            Name = "PrivateChat"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ChatType = 1,
+                            Name = "PrivateChat"
                         });
                 });
 

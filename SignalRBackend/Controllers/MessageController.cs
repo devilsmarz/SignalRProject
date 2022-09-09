@@ -48,10 +48,16 @@ namespace SignalRBackend.WEB.Controllers
             _messageservice.Update(_mapper.Map<MessageDTO>(message));
         }
 
-        [HttpDelete("{id}")]
-        public void Delete(Int32 id)
+        [HttpDelete("{id}/{onlyme}")]
+        public void Delete(Int32 id, Boolean onlyme)
         {
-            _messageservice.Delete(id);
+            _messageservice.Delete(id,onlyme);
+        }
+        [HttpGet("UploadUpper/{id}")]
+        public async Task<IActionResult> UploadUpper(Int32 id)
+        {
+            IEnumerable<MessageViewModel> messagearray = _mapper.Map<IEnumerable<MessageViewModel>>(await _messageservice.UploadUpper(id));
+            return Ok(messagearray);
         }
     }
 }

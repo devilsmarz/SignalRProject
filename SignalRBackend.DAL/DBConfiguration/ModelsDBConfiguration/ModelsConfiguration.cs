@@ -44,12 +44,25 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
                     .Property(s => s.Id)
                     .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<Chat>().HasData(new Chat 
-            { Name = "eff", Id = 1, ChatType = 0 });
+            modelBuilder.Entity<Chat>().HasData(
+                new Chat { Name = "GroupChat", Id = 1, ChatType = 0 },
+                new Chat { Name = "PrivateChat", Id = 2, ChatType = 1 },
+                new Chat { Name = "PrivateChat", Id = 3, ChatType = 1 },
+                new Chat { Name = "PrivateChat", Id = 4, ChatType = 1 });
+
             modelBuilder.Entity<Chat>().HasMany(p => p.Users).WithMany(p => p.Chats).UsingEntity(j => j.HasData(
                 new { ChatsId = 1, UsersId = 1 },
                 new { ChatsId = 1, UsersId = 2 },
-                new { ChatsId = 1, UsersId = 3 }));
+                new { ChatsId = 1, UsersId = 3 },
+
+                new { ChatsId = 2, UsersId = 1 },
+                new { ChatsId = 2, UsersId = 2 },
+
+                new { ChatsId = 3, UsersId = 2 },
+                new { ChatsId = 3, UsersId = 3 },
+
+                new { ChatsId = 4, UsersId = 1 },
+                new { ChatsId = 4, UsersId = 3 }));
         }
         private static void ConfigureMessage(ModelBuilder modelBuilder)
         {

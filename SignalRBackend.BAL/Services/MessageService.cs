@@ -20,9 +20,16 @@ namespace SignalRBackend.BLL.Services
             _mapper = mapper;
         }
 
-        public void Delete(Int32 id)
+        public void Delete(Int32 id, Boolean onlyme)
         {
-            _unitOfWork.Message.Delete(_unitOfWork.Message.GetById(id));
+            if (onlyme == false)
+            {
+                _unitOfWork.Message.Delete(_unitOfWork.Message.GetById(id));
+            }
+            else
+            {
+                _unitOfWork.Message.GetById(id).IsDeletedForMe = true;
+            }
             _unitOfWork.Save();
         }
 
@@ -50,6 +57,11 @@ namespace SignalRBackend.BLL.Services
         public async Task<IEnumerable<MessageDTO>> GetMessages(Int32 chatid, Int32 userid)
         {
             return _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.GetMessages(chatid, userid));
+        }
+
+        public async Task<IEnumerable<MessageDTO>> UploadUpper(int id)
+        {
+            return _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.UploadUpper(id));
         }
     }
 }
