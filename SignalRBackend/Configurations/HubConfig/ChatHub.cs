@@ -7,13 +7,9 @@ namespace SignalRBackend.WEB.Configurations.HubConfig
 {
     public class ChatHub: Hub<IChatHub>
     {
-        public async Task BroadcastAsync(MessageViewModel message)
+        public string GetConnectionId()
         {
-            await Clients.All.MessageReceivedFromHub(message);
-        }
-        public override async Task OnConnectedAsync()
-        {
-            await Clients.All.NewUserConnected("a new user connectd");
+            return Context.ConnectionId;
         }
     }
 }

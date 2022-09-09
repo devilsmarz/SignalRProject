@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { SignalrService } from '../services/chat-signalr/chat-signalr-service';
+import { SignalrService } from '../services/chat-signalr/room-service';
 
 describe('SignalrService', () => {
   let service: SignalrService;

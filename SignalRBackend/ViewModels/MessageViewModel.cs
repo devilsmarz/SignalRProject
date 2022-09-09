@@ -8,8 +8,10 @@ namespace SignalRBackend.WEB.ViewModels
     {
         public Int32? Id { get; set; }
         [Required]
+        [Range(1, Int32.MaxValue)]
         public Int32 ChatId { get; set; }
         [Required]
+        [Range(1, Int32.MaxValue)]
         public Int32 UserId { get; set; }
         [Required]
         [MinLength(1),MaxLength(4096)]

@@ -30,11 +30,6 @@ namespace SignalRBackend.DAL.Repositories
             return Context.Set<T>().Find(id);
         }
 
-        public IEnumerable<T> GetList()
-        {
-            return Context.Set<T>().ToList();
-        }
-
         public void Update(T item)
         {
             Context.Set<T>().Update(item);

@@ -24,16 +24,17 @@
 
       <div class="main">
         <div class="side-menu">
-          <a class="room-button">Room</a>
-        <a class="room-button">+</a>
+          <div *ngFor="let chat of roomService.chatService.chats">
+            <a class="room-button" (click)="joinRoom(chat)">{{chat.name}}</a>
+          </div>
       </div>
-        <div class="chat">
+        <div class="chat" *ngIf="roomService.isConnected">
           <div class="chat-body">
-            <div *ngFor="let m of signalRService.messages">
+            <div *ngFor="let m of roomService.messageService.messages">
               <div class="message">
                 <header>{{m.user?.userName}}</header>
                 <p> {{m.messageText}}</p>
-                <footer>{{m.activityDate}}</footer>
+                <footer>{{m.activityDate?.toDateString()}}</footer>
               </div>
             </div>
           </div>

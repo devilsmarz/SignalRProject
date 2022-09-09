@@ -6,6 +6,7 @@ using SignalRBackend.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SignalRBackend.BLL.Services
 {
@@ -37,18 +38,18 @@ namespace SignalRBackend.BLL.Services
             _unitOfWork.Save();
         }
 
-        public MessageDTO UpdateAndGet(MessageDTO message)
+        public MessageDTO InsertOrUpdateAndGet(MessageDTO message)
         {
-           return _mapper.Map<MessageDTO>(_unitOfWork.Message.UpdateAndGet(_mapper.Map<Message>(message)));
+           return _mapper.Map<MessageDTO>(_unitOfWork.Message.InsertOrUpdateAndGet(_mapper.Map<Message>(message)));
         }
 
         public void GetAll(Int32 chatid, Int32 userid)
         {
             throw new NotImplementedException();
         }
-        public IEnumerable<MessageDTO> FilterAndGet(Int32 chatid, Int32 userid)
+        public async Task<IEnumerable<MessageDTO>> GetMessages(Int32 chatid, Int32 userid)
         {
-            return _mapper.Map<IEnumerable<MessageDTO>>(_unitOfWork.Message.FilterAndGet(chatid, userid));
+            return _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.GetMessages(chatid, userid));
         }
     }
 }
