@@ -50,10 +50,6 @@ namespace SignalRBackend.BLL.Services
            return _mapper.Map<MessageDTO>(_unitOfWork.Message.InsertOrUpdateAndGet(_mapper.Map<Message>(message)));
         }
 
-        public void GetAll(Int32 chatid, Int32 userid)
-        {
-            throw new NotImplementedException();
-        }
         public async Task<IEnumerable<MessageDTO>> GetMessages(Int32 chatid, Int32 userid)
         {
             return _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.GetMessages(chatid, userid));

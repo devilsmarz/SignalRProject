@@ -29,10 +29,11 @@ namespace SignalRBackend.WEB.Controllers
         }
 
         [HttpPost("Join/{connectionId}/{chatName}")]
-        public async Task<IActionResult> JoinChat(String connectionId, string ChatName)
+        public async Task<IActionResult> JoinChat(String connectionId, String ChatName)
         {
             await _hub.Groups.AddToGroupAsync(connectionId, ChatName);
             return Ok();
         }
+
     }
 }

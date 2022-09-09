@@ -15,7 +15,6 @@ namespace SignalRBackend.BLL.Interfaces
         public void Update(MessageDTO message);
         public Task<IEnumerable<MessageDTO>> UploadUpper(Int32 id);
         public MessageDTO InsertOrUpdateAndGet(MessageDTO message);
-        public void GetAll(Int32 chatid, Int32 userid);
         public Task<IEnumerable<MessageDTO>> GetMessages(Int32 chatid, Int32 userid);
     }
 }

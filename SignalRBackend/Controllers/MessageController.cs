@@ -35,11 +35,13 @@ namespace SignalRBackend.WEB.Controllers
         }
 
         [HttpPost]
-        public async Task SendMessage([FromBody] MessageViewModel message)
+        public async Task<IActionResult> SendMessage([FromBody] MessageViewModel message)
         {
-            _messageservice.Add(_mapper.Map<MessageDTO>(message));
-            MessageViewModel message2 = _mapper.Map<MessageViewModel>(_messageservice.InsertOrUpdateAndGet(_mapper.Map<MessageDTO>(message)));
-            await _hub.Clients.Group(message.Chat.Name).SendAsync("ReceivedMessage", message2);
+            //_messageservice.Add(_mapper.Map<MessageDTO>(message));
+            //MessageViewModel messageFromDb = _mapper.Map<MessageViewModel>(_messageservice.InsertOrUpdateAndGet(_mapper.Map<MessageDTO>(message)));
+            await _hub.Clients.All.SendAsync("ReceiveMessage", message);
+            //await _hub.Clients.Group(messageFromDb.Chat.Name).SendAsync("ReceiveMessage", messageFromDb);
+            return Ok();
         }
 
         [HttpPut]

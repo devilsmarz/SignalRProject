@@ -17,7 +17,7 @@ namespace SignalRBackend.DAL.Repositories
         public Message InsertOrUpdateAndGet(Message message)
         {
             Message messageDB = Context.Set<Message>().Update(message).Entity;
-            //var messages = Context.Set<Message>().Include(x => x.User).ToList();
+            var messages = Context.Set<Message>().Include(message => message.User).Include(message => message.Chat).ToList();
             return messageDB;
         }
         public async Task<IEnumerable<Message>> GetMessages(Int32 chatid, Int32 userid)

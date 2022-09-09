@@ -26,6 +26,7 @@ export class ChatComponent implements OnInit {
   sendMessage(): void {
     //Need to be removed
     this.message.messageText = this.text;
+    this.message.chatId = 1;
     this.message.userId = Number.parseInt(localStorage.getItem("userId") ?? "-1");
     //
 
