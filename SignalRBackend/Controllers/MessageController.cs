@@ -9,6 +9,9 @@ using SignalRBackend.WEB.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using Newtonsoft.Json;
+using System.Text.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace SignalRBackend.WEB.Controllers
 {
@@ -37,10 +40,11 @@ namespace SignalRBackend.WEB.Controllers
         [HttpPost]
         public async Task<IActionResult> SendMessage([FromBody] MessageViewModel message)
         {
-            //_messageservice.Add(_mapper.Map<MessageDTO>(message));
-            //MessageViewModel messageFromDb = _mapper.Map<MessageViewModel>(_messageservice.InsertOrUpdateAndGet(_mapper.Map<MessageDTO>(message)));
-            await _hub.Clients.All.SendAsync("ReceiveMessage", message);
-            //await _hub.Clients.Group(messageFromDb.Chat.Name).SendAsync("ReceiveMessage", messageFromDb);
+            _messageservice.Add(_mapper.Map<MessageDTO>(message));
+            MessageViewModel messageFromDb = _mapper.Map<MessageViewModel>(_messageservice.InsertOrUpdateAndGet(_mapper.Map<MessageDTO>(message)));
+            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, ContractResolver = new CamelCasePropertyNamesContractResolver()};
+            await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveMessage", JsonConvert.SerializeObject(messageFromDb, jsonSerializerSettings));
+           // await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveMessage", messageFromDb);
             return Ok();
         }
 

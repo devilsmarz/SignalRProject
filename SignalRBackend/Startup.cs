@@ -21,6 +21,8 @@ using System.Text;
 using SignalRBackend.BLL.Interfaces;
 using SignalRBackend.BLL.Services;
 using SignalRBackend.WEB.Configurations.MappingConfig;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace SignalRBackend.WEB
 {
@@ -38,13 +40,17 @@ namespace SignalRBackend.WEB
             String connection = _configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(connection));
-           
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthorizationService, AuthorizationService>();
             services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IChatService, ChatService>();
             services.AddAutoMapper(typeof(AutoMappingProfile));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
 
             services.AddSignalR().AddMessagePackProtocol();
 

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
+import { from } from 'rxjs';
 import { Chat } from 'src/models/chat';
 import { Message } from 'src/models/message';
 import { ChatService } from '../chat-service/chat-service';
@@ -44,14 +45,22 @@ export class RoomService {
   }
 
   private addListeners() {
-    this.hubConnection.on("ReceiveMessage", (data: Message) => {
-      const message = data;
-      this.messageService.messages.push(data);
+    this.hubConnection.on("ReceiveMessage", (data: string) => {
+      let message: Message = JSON.parse(data); 
+      this.messageService.messages.push(message);
     })
   }
-  public joinRoom(chat: Chat){
-    this.http.post(`Room/JoinRoom/${this.connectionId}/${chat.name}`,{});
-    this.messageService.getMessages(chat.id ?? -1);
+  // public joinRoom(chat: Chat){
+  //   this.http.post(`Room/JoinRoom/${this.connectionId}/${chat.name}`,{});
+  //   this.messageService.getMessages(chat.id ?? -1);
+  // }
+
+  public joinRoom(chat: Chat) {
+    var promise = this.hubConnection.invoke("joinRoom", chat.id?.toString())
+      .then(() => { console.log('Join group sent successfully to hub'); })
+      .catch((err) => console.log('error while sending a join to group in hub: ' + err));
+
+    return from(promise);
   }
 
   public sendMessage(message: Message){
