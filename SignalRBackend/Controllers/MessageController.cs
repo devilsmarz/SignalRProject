@@ -12,10 +12,12 @@ using System;
 using Newtonsoft.Json;
 using System.Text.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SignalRBackend.WEB.Controllers
 {
     [Route("[controller]")]
+    [Authorize]
     [ApiController]
     public class MessageController : ControllerBase
     {
