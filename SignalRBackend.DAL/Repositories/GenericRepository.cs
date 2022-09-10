@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SignalRBackend.DAL.Repositories
 {
@@ -25,9 +26,9 @@ namespace SignalRBackend.DAL.Repositories
             Context.Set<T>().Remove(item);
         }
 
-        public virtual T GetById(Int32 id)
+        public virtual async Task<T> GetById(Int32 id)
         {
-            return Context.Set<T>().Find(id);
+            return await Context.Set<T>().FindAsync(id);
         }
 
         public void Update(T item)

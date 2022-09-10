@@ -14,6 +14,6 @@ namespace SignalRBackend.BLL.Interfaces
         void UpdateMessage(MessageDTO message);
         Task<PageInfoDTO> TakeMessages(Int32? page, Int32 userid, Int32 chatid);
         MessageDTO AddMessage(MessageDTO message);
-        Boolean IsUserInChat(Int32 userId, Int32 chatId);
+        Task<Boolean> IsUserInChat(Int32 userId, Int32 chatId);
     }
 }

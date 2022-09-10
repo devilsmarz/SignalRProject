@@ -8,7 +8,7 @@ namespace SignalRBackend.DAL.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
-        T GetById(Int32 id);
+        Task<T> GetById(Int32 id);
         void Add(T item);
         void Update(T item);
         void Delete(T item);

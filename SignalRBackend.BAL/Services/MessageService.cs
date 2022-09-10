@@ -69,9 +69,10 @@ namespace SignalRBackend.BLL.Services
                     };
         }
 
-        public Boolean IsUserInChat(Int32 userId, Int32 chatId)
+        public async Task<Boolean> IsUserInChat(Int32 userId, Int32 chatId)
         {
-            return _unitOfWork.User.GetById(userId).Chats.Where(chat => chat.Id == chatId && chat.Users.Any(user => user.Id == userId)).Any();
+            Chat chat = await _unitOfWork.Chat.GetById(chatId);
+            return chat.Users.Any(user => user.Id == userId);
         }
     }
 }

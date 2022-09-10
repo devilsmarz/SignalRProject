@@ -35,7 +35,7 @@ namespace SignalRBackend.WEB.Controllers
         [HttpPost]
         public async Task<IActionResult> SendMessage([FromBody] MessageViewModel message)
         {
-            if (_messageservice.IsUserInChat(message.UserId, message.ChatId))
+            if (await _messageservice.IsUserInChat(message.UserId, message.ChatId))
             {
                 MessageViewModel messageFromDb = _mapper.Map<MessageViewModel>(_messageservice.AddMessage(_mapper.Map<MessageDTO>(message)));
                 JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, ContractResolver = new CamelCasePropertyNamesContractResolver() };
@@ -49,9 +49,9 @@ namespace SignalRBackend.WEB.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateMessage([FromBody] MessageViewModel message)
+        public async Task<IActionResult> UpdateMessage([FromBody] MessageViewModel message)
         {
-            if(_messageservice.IsUserInChat(message.UserId, message.ChatId))
+            if(await _messageservice.IsUserInChat(message.UserId, message.ChatId))
             {
                 _messageservice.UpdateMessage(_mapper.Map<MessageDTO>(message));
                 return Ok();
@@ -63,9 +63,9 @@ namespace SignalRBackend.WEB.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromBody] MessageViewModel message)
+        public async Task<IActionResult> Delete([FromBody] MessageViewModel message)
         {
-            if (_messageservice.IsUserInChat(message.UserId, message.ChatId))
+            if (await _messageservice.IsUserInChat(message.UserId, message.ChatId))
             {
                 _messageservice.DeleteMessage(_mapper.Map<MessageDTO>(message));
                 return Ok();
@@ -79,7 +79,7 @@ namespace SignalRBackend.WEB.Controllers
         [HttpGet("{userid}/{chatid}/{page?}")]
         public async Task<IActionResult> TakeMessages(Int32 userId, Int32 chatId, Int32? page = null)
         {
-            if (_messageservice.IsUserInChat(userId, chatId))
+            if (await _messageservice.IsUserInChat(userId, chatId))
             {
                 PageInfoViewModel chatinfo = _mapper.Map<PageInfoViewModel>(await _messageservice.TakeMessages(page, userId, chatId));
                 return Ok(chatinfo);
