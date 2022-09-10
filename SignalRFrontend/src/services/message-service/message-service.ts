@@ -1,9 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
-import { from, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { MessagePackHubProtocol } from '@microsoft/signalr-protocol-msgpack'
 import { Message } from 'src/models/message';
 import { PageInfo } from 'src/models/pageInfo';
 
@@ -25,7 +21,7 @@ export class MessageService {
   }
 
   public getMessages(chatId: number, page: number | null){
-    return this.http.get<PageInfo>(`${this.apiUrl}/${chatId}/${localStorage.getItem("userId")}/${page ?? ""}`);
+    return this.http.get<PageInfo>(`${this.apiUrl}/${localStorage.getItem("userId")}/${chatId}/${page ?? ""}`);
   }
 
   public deleteMessage(messageId: number){

@@ -30,13 +30,23 @@
       </div>
         <div class="chat" *ngIf="roomService.isConnected">
           <div class="chat-body">
-            <div *ngFor="let m of roomService.messageService.messages">
-              <div class="message">
-                <header>{{m.userName}}: {{"  "}}</header>
-                <p>{{m.messageText}}</p>
-                <footer>{{m.activityDate}}</footer>
+            <mat-list-item *ngFor="let message of roomService.messageService.messages" (contextmenu)="onContextMenu($event, message)">
+              <div class="message" [matMenuTriggerFor]="contextMenu" style="pointer-events: none;">
+                <header>{{message.userName}}:</header>
+                <p>{{message.messageText}}</p>
+                <footer>{{message.activityDate}}</footer>
               </div>
-            </div>
+            </mat-list-item>
+            <mat-menu #contextMenu="matMenu">
+              <ng-template matMenuContent let-item="message">
+                <button mat-menu-item (click)="alert()">Action 1</button>
+                <button mat-menu-item (click)="alert()">Action 2</button>
+              </ng-template>
+            </mat-menu>
+          </div>
+          <div>
+             <button class="room-button" [disabled]="!isAvailableNextPage" (click)="nextPage()">Next page</button>
+             <button class="room-button" [disabled]="!isAvailablePreviousPage" (click)="previousPage()">Previous Page</button>
           </div>
           <div class="chat-input">
             <input type="text" maxlength="4096" [(ngModel)]="text">
