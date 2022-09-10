@@ -10,7 +10,7 @@ namespace SignalRBackend.DAL.DomainModels
         public Int32? ReceiverId { get; set; }
         public String UserName { get; set; }
 
-        public Boolean isDeletedOnlyForCreator = false;
+        public Boolean isDeletedOnlyForCreator { get; set; }
         public String MessageText { get; set; }
         public DateTime ActivityDate { get; set; }
         public User Receiver { get; set; }

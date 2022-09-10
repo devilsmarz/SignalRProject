@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SignalRBackend.DAL.Migrations
 {
-    public partial class AwesomeMigration123 : Migration
+    public partial class adsfs : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -67,6 +67,8 @@ namespace SignalRBackend.DAL.Migrations
                     ChatId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     ReceiverId = table.Column<int>(type: "int", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    isDeletedOnlyForCreator = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     MessageText = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false),
                     ActivityDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()")
                 },

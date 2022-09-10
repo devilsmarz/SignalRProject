@@ -13,11 +13,12 @@ using Newtonsoft.Json;
 using System.Text.Json;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authorization;
+using SignalRBackend.DAL.DomainModels;
 
 namespace SignalRBackend.WEB.Controllers
 {
     [Route("[controller]")]
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class MessageController : ControllerBase
     {
@@ -34,29 +35,59 @@ namespace SignalRBackend.WEB.Controllers
         [HttpPost]
         public async Task<IActionResult> SendMessage([FromBody] MessageViewModel message)
         {
-            MessageViewModel messageFromDb = _mapper.Map<MessageViewModel>(_messageservice.AddMessage(_mapper.Map<MessageDTO>(message)));
-            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, ContractResolver = new CamelCasePropertyNamesContractResolver()};
-            await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveMessage", JsonConvert.SerializeObject(messageFromDb, jsonSerializerSettings));
-            return Ok();
+            if (_messageservice.IsUserInChat(message.UserId, message.ChatId))
+            {
+                MessageViewModel messageFromDb = _mapper.Map<MessageViewModel>(_messageservice.AddMessage(_mapper.Map<MessageDTO>(message)));
+                JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, ContractResolver = new CamelCasePropertyNamesContractResolver() };
+                await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveMessage", JsonConvert.SerializeObject(messageFromDb, jsonSerializerSettings));
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPut]
-        public void UpdateMessage([FromBody] MessageViewModel message)
+        public IActionResult UpdateMessage([FromBody] MessageViewModel message)
         {
-            _messageservice.UpdateMessage(_mapper.Map<MessageDTO>(message));
+            if(_messageservice.IsUserInChat(message.UserId, message.ChatId))
+            {
+                _messageservice.UpdateMessage(_mapper.Map<MessageDTO>(message));
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpDelete]
-        public void Delete([FromBody] MessageViewModel message)
+        public IActionResult Delete([FromBody] MessageViewModel message)
         {
-            _messageservice.DeleteMessage(_mapper.Map<MessageDTO>(message));
+            if (_messageservice.IsUserInChat(message.UserId, message.ChatId))
+            {
+                _messageservice.DeleteMessage(_mapper.Map<MessageDTO>(message));
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("{userid}/{chatid}/{page?}")]
-        public async Task<IActionResult> TakeMessages(Int32 userid, Int32 chatid, Int32? page = null)
+        public async Task<IActionResult> TakeMessages(Int32 userId, Int32 chatId, Int32? page = null)
         {
-            PageInfoViewModel chatinfo = _mapper.Map<PageInfoViewModel>(await _messageservice.TakeMessages(page, userid, chatid));
-            return Ok(chatinfo);
+            if (_messageservice.IsUserInChat(userId, chatId))
+            {
+                PageInfoViewModel chatinfo = _mapper.Map<PageInfoViewModel>(await _messageservice.TakeMessages(page, userId, chatId));
+                return Ok(chatinfo);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }

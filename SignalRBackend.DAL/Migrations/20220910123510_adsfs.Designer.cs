@@ -10,8 +10,8 @@ using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 namespace SignalRBackend.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220909070555_AwesomeMigration123")]
-    partial class AwesomeMigration123
+    [Migration("20220910123510_adsfs")]
+    partial class adsfs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,6 +154,16 @@ namespace SignalRBackend.DAL.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<bool>("isDeletedOnlyForCreator")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.HasKey("Id");
 

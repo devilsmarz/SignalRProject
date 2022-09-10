@@ -69,9 +69,9 @@ namespace SignalRBackend.BLL.Services
                     };
         }
 
-        public Boolean IsUserInChat(int userid)
+        public Boolean IsUserInChat(Int32 userId, Int32 chatId)
         {
-            return _unitOfWork.User.GetById(userid).Chats.Where(chat => chat.Users.Any(user => user.Id == userid)).Any();
+            return _unitOfWork.User.GetById(userId).Chats.Where(chat => chat.Id == chatId && chat.Users.Any(user => user.Id == userId)).Any();
         }
     }
 }
