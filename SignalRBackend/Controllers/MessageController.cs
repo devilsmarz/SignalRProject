@@ -14,6 +14,7 @@ using System.Text.Json;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authorization;
 using SignalRBackend.DAL.DomainModels;
+using SignalRBackend.WEB.Shared.Functions;
 
 namespace SignalRBackend.WEB.Controllers
 {
@@ -33,14 +34,28 @@ namespace SignalRBackend.WEB.Controllers
             _messageservice = messageservice;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddOrUpdateMessage([FromBody] MessageViewModel message)
+        [HttpPut]
+        public async Task<IActionResult> UpdateMessage([FromBody] MessageViewModel message)
         {
             if (await _messageservice.IsUserInChat(message.UserId, message.ChatId))
             {
-                MessageViewModel messageFromDb = _mapper.Map<MessageViewModel>(_messageservice.AddOrUpdateMessage(_mapper.Map<MessageDTO>(message)));
-                JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, ContractResolver = new CamelCasePropertyNamesContractResolver() };
-                await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveMessage", JsonConvert.SerializeObject(messageFromDb, jsonSerializerSettings));
+                MessageViewModel messageDb = _mapper.Map<MessageViewModel>(_messageservice.AddOrUpdateMessage(_mapper.Map<MessageDTO>(message)));
+                await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveUpdatedMessage", JsonFunction.SerializeObject(messageDb));
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendMessage([FromBody] MessageViewModel message)
+        {
+            if (await _messageservice.IsUserInChat(message.UserId, message.ChatId))
+            {
+                MessageViewModel messageDb = _mapper.Map<MessageViewModel>(_messageservice.AddOrUpdateMessage(_mapper.Map<MessageDTO>(message)));
+                await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveNewMessage", JsonFunction.SerializeObject(messageDb));
                 return Ok();
             }
             else
@@ -55,6 +70,10 @@ namespace SignalRBackend.WEB.Controllers
             if (await _messageservice.IsUserInChat(userId, chatId))
             {
                 await _messageservice.DeleteMessage(messageId, isDeletedOnlyForCreator);
+                if(!isDeletedOnlyForCreator)
+                {
+                    await _hub.Clients.Group(chatId.ToString()).SendAsync("DeleteMessage", JsonFunction.SerializeObject(messageId));
+                }
                 return Ok();
             }
             else

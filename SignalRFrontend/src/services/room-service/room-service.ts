@@ -44,13 +44,32 @@ export class RoomService {
   }
 
   private addListeners() {
-    this.hubConnection.on("ReceiveMessage", (data: string) => {
-      let message: Message = JSON.parse(data); 
+    this.hubConnection.on("ReceiveNewMessage", (data: string) => {
+      let newMessage: Message = JSON.parse(data); 
       if(this.messageService.messages.length < 20)
       {
-        this.messageService.messages.push(message);
+        this.messageService.messages.push(newMessage);
       }
-    })
+    });
+
+    this.hubConnection.on("ReceiveUpdatedMessage", (data: string) => {
+      let updatedMessage: Message = JSON.parse(data); 
+      for(let message of this.messageService.messages)
+      {
+        if(message.id === updatedMessage.id)
+        {
+          message = updatedMessage;
+        }
+      }
+    });
+
+    this.hubConnection.on("DeleteMessage", (data: string) => {
+      let updatedMessage: Message = JSON.parse(data); 
+      for(let message of this.messageService.messages)
+      {
+        //this.messageService.getMessages
+      }
+    });
   }
   public leaveRoom(chatId: number){
     var promise = this.hubConnection.invoke("leaveRoom", chatId?.toString())

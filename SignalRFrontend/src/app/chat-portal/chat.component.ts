@@ -1,9 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
 import { Message } from 'src/models/message';
 import { RoomService } from 'src/services/room-service/room-service';
-import { MessageService } from 'src/services/message-service/message-service';
-import { Chat } from 'src/models/chat';
 
 
 @Component({
