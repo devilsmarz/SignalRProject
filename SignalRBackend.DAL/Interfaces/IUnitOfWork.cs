@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SignalRBackend.DAL.Interfaces
 {
@@ -19,5 +20,6 @@ namespace SignalRBackend.DAL.Interfaces
             get;
         }
         Int32 Save();
+        Task<Int32> SaveAsync();
     }
 }

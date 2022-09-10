@@ -21,10 +21,11 @@ namespace SignalRBackend.BLL.Services
             _mapper = mapper;
         }
 
-        public void DeleteMessage(MessageDTO message)
+        public async Task DeleteMessage(Int32 messageId, Boolean isDeletedOnlyForCreator)
         {
-            Message messageDB = _mapper.Map<Message>(message);
-            if (message.IsDeletedOnlyForCreator == false)
+            Message messageDB = new Message() { Id = messageId };
+
+            if (isDeletedOnlyForCreator == false)
             {
                 _unitOfWork.Message.Delete(messageDB);
             }
@@ -33,40 +34,35 @@ namespace SignalRBackend.BLL.Services
                 _unitOfWork.Message.AttachEntity(messageDB);
                 messageDB.IsDeletedOnlyForCreator = true;
             }
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
         }
 
-        public void UpdateMessage(MessageDTO message)
+        public MessageDTO AddOrUpdateMessage(MessageDTO message)
         {
-            _unitOfWork.Message.Update(_mapper.Map<Message>(message));
+            Message messageDB = _mapper.Map<Message>(message);
+            _unitOfWork.Message.Update(messageDB);
             _unitOfWork.Save();
-        }
-
-        public MessageDTO AddMessage(MessageDTO message)
-        {
-                _unitOfWork.Message.Add(_mapper.Map<Message>(message));
-                _unitOfWork.Save();
-                return message;
+            return _mapper.Map<MessageDTO>(messageDB); ;
         }
 
         public async Task<PageInfoDTO> TakeMessages(Int32? page, Int32 userId, Int32 chatId)
         {
-                IEnumerable<MessageDTO> messages = _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.TakeMessages(userId, chatId));
+            IEnumerable<MessageDTO> messages = _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.TakeMessages(userId, chatId));
 
-                Int32 numOfMessages = messages.Count();
-                Int32 totalPages = numOfMessages % 20 == 0 ? numOfMessages / 20 : (numOfMessages / 20) + 1;
+            Int32 numOfMessages = messages.Count();
+            Int32 totalPages = numOfMessages % 20 == 0 ? numOfMessages / 20 : (numOfMessages / 20) + 1;
 
-                return page != null
-                    ? new PageInfoDTO
-                    {
-                        CurrentPageNumber = (Int32)page,
-                        Messages = messages.Skip(((Int32)page - 1) * 20).Take(20),
-                    }
-                    : new PageInfoDTO
-                    {
-                        CurrentPageNumber = totalPages,
-                        Messages = messages.Skip((totalPages - 1) * 20),
-                    };
+            return page != null
+                ? new PageInfoDTO
+                {
+                    CurrentPageNumber = (Int32)page,
+                    Messages = messages.Skip(((Int32)page - 1) * 20).Take(20),
+                }
+                : new PageInfoDTO
+                {
+                    CurrentPageNumber = totalPages,
+                    Messages = messages.Skip((totalPages - 1) * 20),
+                };
         }
 
         public async Task<Boolean> IsUserInChat(Int32 userId, Int32 chatId)

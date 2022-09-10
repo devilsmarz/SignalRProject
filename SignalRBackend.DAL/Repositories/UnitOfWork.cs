@@ -2,6 +2,7 @@
 using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 using SignalRBackend.DAL.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace SignalRBackend.DAL.Repositories
 {
@@ -42,6 +43,11 @@ namespace SignalRBackend.DAL.Repositories
         public Int32 Save()
         {
             return Context.SaveChanges();
+        }
+
+        public async Task<Int32> SaveAsync()
+        {
+            return await Context.SaveChangesAsync();
         }
     }
 }

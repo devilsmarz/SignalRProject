@@ -10,10 +10,9 @@ namespace SignalRBackend.BLL.Interfaces
 {
     public interface IMessageService
     {
-        void DeleteMessage(MessageDTO message);
-        void UpdateMessage(MessageDTO message);
+        Task DeleteMessage(Int32 messageId, Boolean isDeletedOnlyForCreator);
         Task<PageInfoDTO> TakeMessages(Int32? page, Int32 userid, Int32 chatid);
-        MessageDTO AddMessage(MessageDTO message);
+        MessageDTO AddOrUpdateMessage(MessageDTO message);
         Task<Boolean> IsUserInChat(Int32 userId, Int32 chatId);
     }
 }

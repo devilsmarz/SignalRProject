@@ -25,6 +25,7 @@ namespace SignalRBackend.WEB.Controllers
         private readonly IHubContext<ChatHub> _hub;
         private readonly IMapper _mapper;
         private readonly IMessageService _messageservice;
+
         public MessageController(IHubContext<ChatHub> hub, IMapper mapper, IMessageService messageservice)
         {
             _hub = hub;
@@ -33,11 +34,11 @@ namespace SignalRBackend.WEB.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendMessage([FromBody] MessageViewModel message)
+        public async Task<IActionResult> AddOrUpdateMessage([FromBody] MessageViewModel message)
         {
             if (await _messageservice.IsUserInChat(message.UserId, message.ChatId))
             {
-                MessageViewModel messageFromDb = _mapper.Map<MessageViewModel>(_messageservice.AddMessage(_mapper.Map<MessageDTO>(message)));
+                MessageViewModel messageFromDb = _mapper.Map<MessageViewModel>(_messageservice.AddOrUpdateMessage(_mapper.Map<MessageDTO>(message)));
                 JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, ContractResolver = new CamelCasePropertyNamesContractResolver() };
                 await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveMessage", JsonConvert.SerializeObject(messageFromDb, jsonSerializerSettings));
                 return Ok();
@@ -48,26 +49,12 @@ namespace SignalRBackend.WEB.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateMessage([FromBody] MessageViewModel message)
+        [HttpDelete("{messageId}/{userId}/{chatId}/{isDeletedOnlyForCreator}")]
+        public async Task<IActionResult> DeleteMessagee(Int32 messageId, Int32 userId, Int32 chatId, Boolean isDeletedOnlyForCreator)
         {
-            if(await _messageservice.IsUserInChat(message.UserId, message.ChatId))
+            if (await _messageservice.IsUserInChat(userId, chatId))
             {
-                _messageservice.UpdateMessage(_mapper.Map<MessageDTO>(message));
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] MessageViewModel message)
-        {
-            if (await _messageservice.IsUserInChat(message.UserId, message.ChatId))
-            {
-                _messageservice.DeleteMessage(_mapper.Map<MessageDTO>(message));
+                await _messageservice.DeleteMessage(messageId, isDeletedOnlyForCreator);
                 return Ok();
             }
             else
