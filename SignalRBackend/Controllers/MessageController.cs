@@ -12,6 +12,7 @@ using System;
 using Newtonsoft.Json;
 using System.Text.Json;
 using Newtonsoft.Json.Serialization;
+using SignalRBackend.WEB.Shared.Attributes;
 
 namespace SignalRBackend.WEB.Controllers
 {
@@ -43,6 +44,7 @@ namespace SignalRBackend.WEB.Controllers
         {
             _messageservice.UpdateMessage(_mapper.Map<MessageDTO>(message));
         }
+
 
         [HttpDelete]
         public void Delete([FromBody] MessageViewModel message)
