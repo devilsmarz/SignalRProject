@@ -24,14 +24,14 @@ namespace SignalRBackend.BLL.Services
         public void DeleteMessage(MessageDTO message)
         {
             Message messageDB = _mapper.Map<Message>(message);
-            if (message.isDeletedOnlyForCreator == false)
+            if (message.IsDeletedOnlyForCreator == false)
             {
                 _unitOfWork.Message.Delete(messageDB);
             }
             else
             {
                 _unitOfWork.Message.AttachEntity(messageDB);
-                messageDB.isDeletedOnlyForCreator = true;
+                messageDB.IsDeletedOnlyForCreator = true;
             }
             _unitOfWork.Save();
         }

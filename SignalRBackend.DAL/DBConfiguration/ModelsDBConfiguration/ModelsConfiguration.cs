@@ -78,7 +78,8 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
 
             modelBuilder.Entity<Message>()
                 .Property(s => s.ActivityDate)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("getdate()")
+                .IsRequired(true);
 
             modelBuilder.Entity<Message>()
                 .HasOne(s => s.Receiver)
@@ -86,7 +87,7 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
                 .HasForeignKey(s => s.ReceiverId);
 
             modelBuilder.Entity<Message>()
-                .Property(s => s.isDeletedOnlyForCreator)
+                .Property(s => s.IsDeletedOnlyForCreator)
                 .HasDefaultValue(false)
                 .IsRequired(true);
 
