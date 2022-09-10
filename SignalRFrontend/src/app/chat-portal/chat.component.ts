@@ -16,6 +16,7 @@ export class ChatComponent implements OnInit {
   chatId: number = -1;
 
   constructor(public roomService: RoomService) {
+    this.roomService.notify.subscribe(() => {this.roomService.messageService.getMessages(this.chatId, this.page);})
   }
 
   ngOnInit(): void {
@@ -23,11 +24,9 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage(): void {
-    //Need to be removed
     this.message.messageText = this.text;
     this.message.userId = Number.parseInt(localStorage.getItem("userId") ?? "-1");
     this.message.userName = localStorage.getItem("userName");
-    //
 
     this.roomService.sendMessage(this.message).subscribe({
       next: _ => {this.text = ''; this.message = new Message();},

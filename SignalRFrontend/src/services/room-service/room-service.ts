@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 import { from } from 'rxjs';
 import { Chat } from 'src/models/chat';
@@ -17,6 +17,7 @@ export class RoomService {
   private connectionUrl = 'https://localhost:5001/signalr';
   private connectionId = "";
   public isConnected = false;
+  public notify: EventEmitter<void> = new EventEmitter<void>()
 
   constructor(private http: HttpClient, public chatService: ChatService, public messageService: MessageService) { this.hubConnection = this.getConnection();}
 
@@ -65,10 +66,7 @@ export class RoomService {
 
     this.hubConnection.on("DeleteMessage", (data: string) => {
       let updatedMessage: Message = JSON.parse(data); 
-      for(let message of this.messageService.messages)
-      {
-        //this.messageService.getMessages
-      }
+      this.notify.emit();
     });
   }
   public leaveRoom(chatId: number){
