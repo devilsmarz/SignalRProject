@@ -50,7 +50,7 @@ namespace SignalRBackend.WEB.Controllers
             _messageservice.DeleteMessage(_mapper.Map<MessageDTO>(message));
         }
 
-        [HttpGet("{userid}/{chatid}/{page}")]
+        [HttpGet("{userid}/{chatid}/{page?}")]
         public async Task<IActionResult> TakeMessages(Int32 userid, Int32 chatid, Int32? page = null)
         {
             PageInfoViewModel chatinfo = _mapper.Map<PageInfoViewModel>(await _messageservice.TakeMessages(page, userid, chatid));

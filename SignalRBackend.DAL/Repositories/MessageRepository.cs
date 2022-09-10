@@ -17,7 +17,7 @@ namespace SignalRBackend.DAL.Repositories
 
         public override Message GetById(Int32 id)
         {
-            return Context.Messages.Where(message => message.Id == id).Include(message => message.User).FirstOrDefault();
+            return Context.Messages.Where(message => message.Id == id).Include(message => message.User).Include(message => message.Chat).FirstOrDefault();
         }
 
         public async Task<IEnumerable<Message>> TakeMessages(Int32 userid, Int32 chatid)

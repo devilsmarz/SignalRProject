@@ -44,20 +44,20 @@ namespace SignalRBackend.BLL.Services
 
         public MessageDTO AddMessage(MessageDTO message)
         {
-            if (_unitOfWork.User.GetById(message.UserId).Chats.Contains(_unitOfWork.Chat.GetById(message.ChatId)) == true)
-            {
+            //if (_unitOfWork.User.GetById(message.UserId).Chats.Contains(_unitOfWork.Chat.GetById(message.ChatId)) == true)
+            //{
                 _unitOfWork.Message.Add(_mapper.Map<Message>(message));
                 _unitOfWork.Save();
                 return message;
-            }
-            return null;
+           // }
+            //return null;
         }
 
-        public async Task<PageInfoDTO> TakeMessages(Int32? page, Int32 userid, Int32 chatid)
+        public async Task<PageInfoDTO> TakeMessages(Int32? page, Int32 userId, Int32 chatId)
         {
-            if (_unitOfWork.User.GetById(userid).Chats.Contains(_unitOfWork.Chat.GetById(chatid)) == true)
-            {
-                IEnumerable<MessageDTO> messages = _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.TakeMessages(userid, chatid));
+            //if (_unitOfWork.User.GetById(userId).Chats.Where(chat => chat.Users.Any(user => user.Id == userId)).Any())
+            //{
+                IEnumerable<MessageDTO> messages = _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.TakeMessages(userId, chatId));
 
                 Int32 numOfMessages = messages.Count();
                 Int32 totalPages = numOfMessages % 20 == 0 ? numOfMessages / 20 : (numOfMessages / 20) + 1;
@@ -66,18 +66,18 @@ namespace SignalRBackend.BLL.Services
                     ? new PageInfoDTO
                     {
                         CurrentPageNumber = (Int32)page,
-                        Messages = messages.Skip(((Int32)page - 1) * 20),
+                        Messages = messages.Skip(((Int32)page - 1) * 20).Take(20),
                     }
                     : new PageInfoDTO
                     {
                         CurrentPageNumber = totalPages,
                         Messages = messages.Skip((totalPages - 1) * 20),
                     };
-            }
-            else
-            {
-                return new PageInfoDTO { CurrentPageNumber = 1, Messages = new List<MessageDTO>() };
-            }
+          //  }
+           // else
+           // {
+           //     return new PageInfoDTO { CurrentPageNumber = 1, Messages = new List<MessageDTO>() };
+           // }
         }
     }
 }

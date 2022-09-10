@@ -15,7 +15,6 @@ export class ChatComponent implements OnInit {
   title = 'chat-ui';
   text: string = "";
   message: Message = new Message();
-  totalMessages: number = 0;
   page: number | null = null;
   chatId: number = -1;
 
@@ -42,7 +41,11 @@ export class ChatComponent implements OnInit {
   joinRoom(newChatId: number){
     if(this.chatId != -1){this.roomService.leaveRoom(this.chatId); this.roomService.messageService.messages = []}
     this.roomService.joinRoom(newChatId);
-    this.roomService.getMessages(newChatId, this.page);
+    this.roomService.getMessages(newChatId, this.page).subscribe(pageInfo => 
+      {
+        this.roomService.messageService.messages = pageInfo.messages;
+        this.page = pageInfo.currentPageNumber;
+      });
     this.chatId = newChatId;
   }
   

@@ -32,7 +32,7 @@
           <div class="chat-body">
             <div *ngFor="let m of roomService.messageService.messages">
               <div class="message">
-                <header>{{m.user?.userName}}: {{"  "}}</header>
+                <header>{{m.userName}}: {{"  "}}</header>
                 <p>{{m.messageText}}</p>
                 <footer>{{m.activityDate}}</footer>
               </div>

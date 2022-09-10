@@ -5,6 +5,7 @@ import { from, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { MessagePackHubProtocol } from '@microsoft/signalr-protocol-msgpack'
 import { Message } from 'src/models/message';
+import { PageInfo } from 'src/models/pageInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,7 @@ export class MessageService {
   }
 
   public getMessages(chatId: number, page: number | null){
-    this.http.get<Message[]>(`${this.apiUrl}/${chatId}/${localStorage.getItem("userId")}/${page}`)
-        .subscribe(messages => this.messages = messages);
+    return this.http.get<PageInfo>(`${this.apiUrl}/${chatId}/${localStorage.getItem("userId")}/${page ?? ""}`);
   }
 
   public deleteMessage(messageId: number){
