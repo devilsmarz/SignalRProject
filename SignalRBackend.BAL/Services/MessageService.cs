@@ -44,19 +44,13 @@ namespace SignalRBackend.BLL.Services
 
         public MessageDTO AddMessage(MessageDTO message)
         {
-            //if (_unitOfWork.User.GetById(message.UserId).Chats.Contains(_unitOfWork.Chat.GetById(message.ChatId)) == true)
-            //{
                 _unitOfWork.Message.Add(_mapper.Map<Message>(message));
                 _unitOfWork.Save();
                 return message;
-           // }
-            //return null;
         }
 
         public async Task<PageInfoDTO> TakeMessages(Int32? page, Int32 userId, Int32 chatId)
         {
-            //if (_unitOfWork.User.GetById(userId).Chats.Where(chat => chat.Users.Any(user => user.Id == userId)).Any())
-            //{
                 IEnumerable<MessageDTO> messages = _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.TakeMessages(userId, chatId));
 
                 Int32 numOfMessages = messages.Count();
@@ -73,11 +67,11 @@ namespace SignalRBackend.BLL.Services
                         CurrentPageNumber = totalPages,
                         Messages = messages.Skip((totalPages - 1) * 20),
                     };
-          //  }
-           // else
-           // {
-           //     return new PageInfoDTO { CurrentPageNumber = 1, Messages = new List<MessageDTO>() };
-           // }
+        }
+
+        public Boolean IsUserInChat(int userid)
+        {
+            return _unitOfWork.User.GetById(userid).Chats.Where(chat => chat.Users.Any(user => user.Id == userid)).Any();
         }
     }
 }
