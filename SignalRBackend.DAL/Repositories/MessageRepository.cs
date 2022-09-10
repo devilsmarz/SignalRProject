@@ -22,7 +22,7 @@ namespace SignalRBackend.DAL.Repositories
 
         public async Task<IEnumerable<Message>> TakeMessages(Int32 userid, Int32 chatid)
         {
-            return await Context.Messages.Where(s => s.ChatId == chatid && (s.IsDeletedForMe == false || (s.UserId != userid))).ToListAsync();
+            return await Context.Messages.Where(s => s.ChatId == chatid && (s.isDeletedOnlyForCreator == false || (s.UserId != userid))).ToListAsync();
         }
 
         public void DeleteById(Int32 id)

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace SignalRBackend.DAL.Repositories
 {
-    internal class UserRepository : GenericRepository<User> , IUserRepository
+    public class UserRepository : GenericRepository<User> , IUserRepository
     {
         public UserRepository(DatabaseContext context) : base(context) { }
 

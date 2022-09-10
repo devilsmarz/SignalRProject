@@ -20,6 +20,7 @@ namespace SignalRBackend.WEB.Configurations.MappingConfig
             CreateMap<ChatDTO, Chat>().ReverseMap();
             CreateMap<UserViewModel, UserDTO>().ReverseMap();
             CreateMap<ChatViewModel, ChatDTO>().ReverseMap();
+            CreateMap<PageInfoViewModel, PageInfoDTO>().ReverseMap();
         }
     }
 }

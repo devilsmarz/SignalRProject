@@ -86,7 +86,7 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
                 .HasForeignKey(s => s.ReceiverId);
 
             modelBuilder.Entity<Message>()
-                .Property(s => s.IsDeletedForMe)
+                .Property(s => s.isDeletedOnlyForCreator)
                 .HasDefaultValue(false)
                 .IsRequired(true);
 
