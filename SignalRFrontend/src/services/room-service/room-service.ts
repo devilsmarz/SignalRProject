@@ -65,7 +65,6 @@ export class RoomService {
     });
 
     this.hubConnection.on("DeleteMessage", (data: string) => {
-      let updatedMessage: Message = JSON.parse(data); 
       this.notify.emit();
     });
   }
@@ -91,5 +90,13 @@ export class RoomService {
   
   public getMessages(chatId: number, page: number | null){
     return this.messageService.getMessages(chatId, page);
+  }
+
+  public deleteMessage(messageId: number, chatId: number, isDeletedOnlyForCreator: Boolean){
+    return this.messageService.deleteMessage(messageId, chatId, isDeletedOnlyForCreator);
+  }
+
+  public updateMessage(message: Message){
+    return this.messageService.updateMessage(message);
   }
 }

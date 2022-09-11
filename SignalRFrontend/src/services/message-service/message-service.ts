@@ -24,7 +24,7 @@ export class MessageService {
     return this.http.get<PageInfo>(`${this.apiUrl}/${localStorage.getItem("userId")}/${chatId}/${page ?? ""}`);
   }
 
-  public deleteMessage(messageId: number){
-    return this.http.get<Message[]>(this.apiUrl);
+  public deleteMessage(messageId: number, chatId: number, isDeletedOnlyForCreator: Boolean){
+    return this.http.delete(`${this.apiUrl}/${messageId}/${localStorage.getItem("userId")}/${chatId}/${isDeletedOnlyForCreator}`);
   }
 }

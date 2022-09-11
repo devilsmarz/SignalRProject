@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 
 namespace SignalRBackend.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220911145225_sss")]
+    partial class sss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -156,7 +158,7 @@ namespace SignalRBackend.DAL.Migrations
                     b.Property<int?>("ReceiverId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RepliedMessageId")
+                    b.Property<int?>("ReplyMessageId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -173,7 +175,7 @@ namespace SignalRBackend.DAL.Migrations
 
                     b.HasIndex("ReceiverId");
 
-                    b.HasIndex("RepliedMessageId");
+                    b.HasIndex("ReplyMessageId");
 
                     b.HasIndex("UserId");
 
@@ -241,9 +243,9 @@ namespace SignalRBackend.DAL.Migrations
                         .WithMany("Messages")
                         .HasForeignKey("ReceiverId");
 
-                    b.HasOne("SignalRBackend.DAL.DomainModels.Message", "RepliedMessage")
+                    b.HasOne("SignalRBackend.DAL.DomainModels.Message", "ReplyMessage")
                         .WithMany()
-                        .HasForeignKey("RepliedMessageId");
+                        .HasForeignKey("ReplyMessageId");
 
                     b.HasOne("SignalRBackend.DAL.DomainModels.User", "User")
                         .WithMany()
@@ -255,7 +257,7 @@ namespace SignalRBackend.DAL.Migrations
 
                     b.Navigation("Receiver");
 
-                    b.Navigation("RepliedMessage");
+                    b.Navigation("ReplyMessage");
 
                     b.Navigation("User");
                 });

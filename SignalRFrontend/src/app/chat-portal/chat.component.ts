@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Message } from 'src/models/message';
+import { AuthorizationService } from 'src/services/authorization-service/authorization-service';
 import { RoomService } from 'src/services/room-service/room-service';
 
 
@@ -16,11 +18,14 @@ export class ChatComponent implements OnInit {
   page: number | null = null;
   chatId: number = -1;
   selectedMessage!: Message;
+  isMessageEditing: Boolean = false;
+  isMessageReplying: Boolean = false;
+  userId: number = Number.parseInt(localStorage.getItem("userId") ?? "-1"); 
   
   @ViewChild(MatMenuTrigger)
   contextMenu!: MatMenuTrigger;
 
-  constructor(public roomService: RoomService) {
+  constructor(public roomService: RoomService, private authorizationService: AuthorizationService) {
     this.roomService.notify.subscribe(() => {this.roomService.messageService.getMessages(this.chatId, this.page);})
   }
 
@@ -30,13 +35,27 @@ export class ChatComponent implements OnInit {
 
   sendMessage(): void {
     this.message.messageText = this.text;
-    this.message.userId = Number.parseInt(localStorage.getItem("userId") ?? "-1");
+    this.message.userId = this.userId;
     this.message.userName = localStorage.getItem("userName");
+    if(this.isMessageReplying){
+      this.message.repliedMessageId = this.selectedMessage.id;
+      this.message.repliedMessage = this.selectedMessage;
+      this.message.receiverId = this.selectedMessage.userId;
+    }
 
-    this.roomService.sendMessage(this.message).subscribe({
-      next: _ => {this.text = ''; this.message = new Message();},
-      error: (err) => console.error(err)
-    });
+    if(!this.isMessageEditing){
+      this.roomService.sendMessage(this.message).subscribe({
+        next: _ => {this.text = ''; this.message = new Message(); this.isMessageReplying = false;},
+        error: (err) => console.error(err)
+      });
+    }
+    else{
+      this.selectedMessage.messageText = this.text;
+      this.roomService.updateMessage(this.selectedMessage).subscribe({
+        next: _ => {this.text = ''; this.message = new Message(); this.isMessageEditing = false;},
+        error: (err) => console.error(err)
+      });
+    }
   }
 
   getMessages(chatId: number)
@@ -65,16 +84,45 @@ export class ChatComponent implements OnInit {
     this.getMessages(this.chatId);
   }
 
-  public alert()
-  {alert(this.selectedMessage.userName)}
+  deleteMessage(isDeletedOnlyForCreator: Boolean){
+    this.roomService.deleteMessage(this.selectedMessage.id ?? -1, this.chatId, isDeletedOnlyForCreator).subscribe({
+      next: (response: any) => {
+        this.getMessages(this.chatId);
+  },
+  error: (err: HttpErrorResponse) => alert("Something went wrong")
+  });;
+  }
+
+  reply(replyOnlyForUser: Boolean){
+    this.isMessageEditing = false;
+    this.isMessageReplying = true;
+  }
+
+  edit(){
+    this.isMessageReplying = false;
+    this.isMessageEditing = true;
+    this.text = this.selectedMessage.messageText;
+  }
+
+  setIsMessageEditingToFalse(){
+    this.isMessageEditing = false;
+  }
+
+  setIsMessageReplyingToFalse(){
+    this.isMessageReplying = false;
+  }
 
   onContextMenu(event: MouseEvent, message: Message) {
     this.selectedMessage = message;
     event.preventDefault();
     this.contextMenu.openMenu();
   }
+
+  logout(){
+    this.authorizationService.logout();
+  }
   
-  public get isMessageValid(): Boolean{
+  get isMessageValid(): Boolean{
     if(this.text.length > 0)
     {
       return false
@@ -82,16 +130,16 @@ export class ChatComponent implements OnInit {
     return true; 
   }
 
-  public get isAvailableNextPage(): Boolean{
+  get isAvailableNextPage(): Boolean{
     if(this.roomService.messageService.messages.length < 20)
     {
-      return false
+      return true
     }
-    return true; 
+    return false; 
   }
 
-  public get isAvailablePreviousPage(): Boolean{
-    if(this.page ?? 0 > 0)
+  get isAvailablePreviousPage(): Boolean{
+    if(this.page !== null && this.page > 0)
     {
       return true
     }

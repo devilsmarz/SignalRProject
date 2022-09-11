@@ -6,10 +6,12 @@ export class Message{
     chatId: number = 1;
     userId: number = 1;
     receiverId: number | null = null;
+    repliedMessageId: number | null = null;
     userName: string | null = "";
     messageText: string  = "";
     isDeletedForMe: boolean = false;
     activityDate: Date | null = null;
+    repliedMessage: Message | null = null;
     user: User | null= null;
     receiver: User | null= null;
     chat: Chat | null= null;

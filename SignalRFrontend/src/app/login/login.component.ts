@@ -1,9 +1,7 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { AuthenticatedResponse } from 'src/models/authenticatedResponse';
+import { AuthorizationService } from 'src/services/authorization-service/authorization-service';
 
 @Component({
   selector: 'app-login',
@@ -14,37 +12,16 @@ export class LoginComponent implements OnInit {
     loginLabel = new FormControl('', [Validators.required]);
 
   constructor(private router: Router, 
-    private http: HttpClient,
-    private jwtHelper: JwtHelperService
+    private authorizationService: AuthorizationService
     ) {}
 
   public login(){
-    this.http.post<AuthenticatedResponse>("auth/login", {userName: this.loginLabel.value}, {
-        headers: new HttpHeaders({ "Content-Type": "application/json"})
-      })
-      .subscribe({
-        next: (response: AuthenticatedResponse) => {
-          localStorage.setItem("jwt", response.token); 
-          localStorage.setItem("userId", response.userId.toString());
-          localStorage.setItem("userName", response.userName);  
-          this.router.navigate(["chat"])
-    },
-    error: (err: HttpErrorResponse) => alert("Something went wrong")
-    });
+    this.authorizationService.login(this.loginLabel.value ?? "")
   }
-ngOnInit(): void {
-    if(this.isUserAuthenticated())
+  ngOnInit(): void {
+    if(this.authorizationService.isUserAuthenticated())
     {
         this.router.navigate(["chat"])
     };
 }
-  isUserAuthenticated = (): boolean => {
-    const token = localStorage.getItem("jwt");
-  
-    if (token && !this.jwtHelper.isTokenExpired(token)){
-      return true;
-    }
-  
-    return false;
-  }
 }

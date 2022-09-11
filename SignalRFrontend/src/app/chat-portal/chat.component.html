@@ -1,25 +1,6 @@
-    <!-- <h1>SignalR Chat DEMO</h1>
-    <mat-form-field novalidate class="example-full-width" appearance="fill">
-        <mat-label>Message</mat-label>
-        <input type="text" matInput #message maxlength="4096" [(ngModel)]="text">
-        <mat-hint align="end">{{message.value.length}} / 4096</mat-hint>
-    </mat-form-field>
-    <button mat-raised-button color="primary" [disabled]="isMessageValid" (click)="sendMessage()">Send Message</button>
-    <h4>List of Messages</h4>
-  
-    <div *ngIf="signalRService.messages.length==0">
-      <p>You haven't send or received messages</p>
-    </div>
-    <div *ngFor="let m of signalRService.messages">
-      <div>
-        <div><strong>ConnectionID</strong> {{1}}</div>
-        <div><strong>Date</strong> {{m.activityDate}}</div>
-        <div><strong>Message</strong> {{m.messageText}}</div>
-        <hr>
-      </div> -->
     <body>
       <div class="navbar">
-        
+        <button mat-raised-button (click)="logout()">Logout</button>
       </div>
 
       <div class="main">
@@ -31,6 +12,10 @@
         <div class="chat" *ngIf="roomService.isConnected">
           <div class="chat-body">
             <mat-list-item *ngFor="let message of roomService.messageService.messages" (contextmenu)="onContextMenu($event, message)">
+              <div class="message" *ngIf="message.repliedMessageId !== null">
+                <header>Reply for message:</header>
+                <p>{{message.repliedMessage?.messageText}}</p>               
+              </div>
               <div class="message" [matMenuTriggerFor]="contextMenu" style="pointer-events: none;">
                 <header>{{message.userName}}:</header>
                 <p>{{message.messageText}}</p>
@@ -39,14 +24,19 @@
             </mat-list-item>
             <mat-menu #contextMenu="matMenu">
               <ng-template matMenuContent let-item="message">
-                <button mat-menu-item (click)="alert()">Action 1</button>
-                <button mat-menu-item (click)="alert()">Action 2</button>
+                <button mat-menu-item *ngIf="selectedMessage.userId === userId" (click)="edit()">Edit</button>
+                <button mat-menu-item *ngIf="selectedMessage.userId === userId" (click)="deleteMessage(true)">Delete only for me</button>
+                <button mat-menu-item *ngIf="selectedMessage.userId === userId" (click)="deleteMessage(false)">Delete for all</button>
+                <button mat-menu-item *ngIf="selectedMessage.userId !== userId" (click)="reply(true)">Reply only for user</button>
+                <button mat-menu-item (click)="reply(false)">Reply for all</button>
               </ng-template>
             </mat-menu>
           </div>
           <div>
-             <button class="room-button" [disabled]="!isAvailableNextPage" (click)="nextPage()">Next page</button>
-             <button class="room-button" [disabled]="!isAvailablePreviousPage" (click)="previousPage()">Previous Page</button>
+            <button mat-raised-button [disabled]="isAvailableNextPage" (click)="nextPage()">Next page</button>
+            <button mat-raised-button [disabled]="isAvailablePreviousPage" (click)="previousPage()">Previous Page</button>
+            <button mat-raised-button *ngIf="isMessageReplying" (click)="setIsMessageReplyingToFalse()">Close replying</button>
+            <button mat-raised-button *ngIf="isMessageEditing" (click)="setIsMessageEditingToFalse()">Close editing</button>
           </div>
           <div class="chat-input">
             <input type="text" maxlength="4096" [(ngModel)]="text">
