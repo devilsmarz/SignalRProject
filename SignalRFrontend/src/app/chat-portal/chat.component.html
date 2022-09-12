@@ -1,0 +1,45 @@
+    <body>
+      <div class="navbar">
+        <button mat-raised-button (click)="logout()">Logout</button>
+      </div>
+
+      <div class="main">
+        <div class="side-menu">
+          <div *ngFor="let chat of roomService.chatService.chats">
+            <a class="room-button" (click)="joinRoom(chat)">{{getchatName(chat)}}</a>
+          </div>
+      </div>
+        <div class="chat" *ngIf="roomService.isConnected">
+          <div class="chat-body">
+            <mat-list-item *ngFor="let message of roomService.messageService.messages" cdkOverlayOrigin #trigger="cdkOverlayOrigin" (contextmenu)="onContextMenu($event, message, trigger)">
+              <div class="message" *ngIf="message.repliedMessageId !== null">
+                <header>Reply for message:</header>
+                <p>{{message.repliedMessage?.messageText}}</p>               
+              </div>
+              <div class="message" cdkOverlayOrigin #trigger="cdkOverlayOrigin" style="pointer-events: none;">
+                <header>{{message.userName}}:</header>
+                <p>{{message.messageText}}</p>
+                <footer>{{formatDate(message)}}</footer>
+              </div>
+            </mat-list-item>
+            <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="openMenu">
+                <button mat-menu-item *ngIf="selectedMessage.userId === userId" (click)="edit()">Edit</button>
+                <button mat-menu-item *ngIf="selectedMessage.userId === userId" (click)="deleteMessage(true)">Delete only for me</button>
+                <button mat-menu-item *ngIf="selectedMessage.userId === userId" (click)="deleteMessage(false)">Delete for all</button>
+                <button mat-menu-item *ngIf="selectedMessage.userId !== userId" (click)="reply(true)">Reply only for user</button>
+                <button mat-menu-item *ngIf="chatType === 0" (click)="reply(false)">Reply for all</button>
+              </ng-template>
+          </div>
+          <div>
+            <button mat-raised-button [disabled]="!isAvailableNextPage" (click)="nextPage()">Next page</button>
+            <button mat-raised-button [disabled]="!isAvailablePreviousPage" (click)="previousPage()">Previous Page</button>
+            <button mat-raised-button *ngIf="isMessageReplying" (click)="setIsMessageReplyingToFalse()">Close replying</button>
+            <button mat-raised-button *ngIf="isMessageEditing" (click)="setIsMessageEditingToFalse()">Close editing</button>
+          </div>
+          <div class="chat-input">
+            <input type="text" maxlength="4096" [(ngModel)]="text">
+            <button [disabled]="isMessageValid" (click)="sendMessage()">Send</button>
+          </div>
+        </div>
+      </div>
+    </body>

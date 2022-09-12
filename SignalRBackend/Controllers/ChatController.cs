@@ -1,52 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using SignalRBackend.BLL.DTO;
+using SignalRBackend.BLL.Interfaces;
 using SignalRBackend.WEB.Configurations.HubConfig;
 using SignalRBackend.WEB.ViewModels;
-using System.Linq;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SignalRBackend.WEB.Controllers
 {
-    [Route("chat")]
+    [Route("[controller]")]
     [ApiController]
     public class ChatController : ControllerBase
     {
-        private readonly IHubContext<ChatHub> _hub;
-        public ChatController(IHubContext<ChatHub> hub)
+        private readonly IMapper _mapper;
+        private readonly IChatService _chatService;
+        public ChatController(IMapper mapper, IChatService chatService)
         {
-            _hub = hub;
+            _mapper = mapper;
+            _chatService = chatService; 
         }
-
-        // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet("GetAllChats/{userid}")]
+        public async Task<IActionResult> GetAllChats(Int32 userid)
         {
-            var a = _hub.Clients.All.SendAsync("chatData", "messages");
-            return Ok(new { Message = "Request Completed}" });
-        }
-
-        [HttpPost]
-        public async Task SendMessage(MessageViewModel message)
-        {
-            //additional business logic 
-
-            await _hub.Clients.All.SendAsync("messageReceivedFromApi", message);
-
-            //additional business logic 
-        }
-
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            IEnumerable<ChatViewModel> chats = _mapper.Map<IEnumerable<ChatViewModel>>(await _chatService.GetChatsById(userid));
+            return Ok(chats);
         }
     }
 }

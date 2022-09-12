@@ -6,8 +6,5 @@ namespace SignalRBackend.WEB.Configurations.Interfaces
 {
         public interface IChatHub
         {
-            Task MessageReceivedFromHub(MessageViewModel message);
-
-            Task NewUserConnected(String message);
         }
 }

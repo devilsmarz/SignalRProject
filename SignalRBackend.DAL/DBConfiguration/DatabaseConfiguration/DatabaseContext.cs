@@ -25,6 +25,7 @@ namespace SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ModelsConfiguration.ConfigureAll(modelBuilder);
+            
         }
     }
 }

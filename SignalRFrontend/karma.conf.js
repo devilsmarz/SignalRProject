@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/signal-rfrontend'),
+      dir: require('path').join(__dirname, './coverage/signal-rfront'),
       subdir: '.',
       reporters: [
         { type: 'html' },

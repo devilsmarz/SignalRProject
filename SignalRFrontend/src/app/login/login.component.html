@@ -1,0 +1,12 @@
+<form class="login-form">
+    <h4>Select login</h4>
+    <mat-form-field appearance="fill">
+      <mat-label>Login</mat-label>
+      <mat-select [formControl]="loginLabel" required>
+        <mat-option value="Ann">Ann</mat-option>
+        <mat-option value="Ludwig">Ludwig</mat-option>
+        <mat-option value="Alex">Alex</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button [disabled]="loginLabel.invalid" color="primary" (click)="login()">Login</button>
+  </form>

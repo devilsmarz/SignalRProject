@@ -14,7 +14,7 @@ export class SignalrService {
   private hubConnection: HubConnection;
   public messages: Message[] = [];
   private connectionUrl = 'https://localhost:5001/signalr';
-  private apiUrl = 'chat';
+  private apiUrl = 'Message';
 
   constructor(private http: HttpClient) { this.hubConnection = this.getConnection();}
 
@@ -23,7 +23,7 @@ export class SignalrService {
     this.addListeners();
   }
 
-  public sendMessageToApi(message: Message) {
+  public sendMessageToApi(message: any) {
     return this.http.post(this.apiUrl, message)
       .pipe(tap(_ => console.log("message sucessfully sent to api controller")));
   }
@@ -62,7 +62,7 @@ export class SignalrService {
   }
 
   private addListeners() {
-    this.hubConnection.on("messageReceivedFromApi", (data: Message) => {
+    this.hubConnection.on("ReceiveMessage", (data: Message) => {
       console.log("message received from API Controller")
       this.messages.push(data);
     })
