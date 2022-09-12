@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { Chat } from 'src/models/chat';
 import { Message } from 'src/models/message';
 import { AuthorizationService } from 'src/services/authorization-service/authorization-service';
 import { RoomService } from 'src/services/room-service/room-service';
@@ -18,6 +19,7 @@ export class ChatComponent implements OnInit {
   page: number | null = null;
   chatId: number = -1;
   selectedMessage!: Message;
+  chatType: number = 0;
   isMessageEditing: Boolean = false;
   isMessageReplying: Boolean = false;
   userId: number = Number.parseInt(localStorage.getItem("userId") ?? "-1"); 
@@ -26,7 +28,7 @@ export class ChatComponent implements OnInit {
   contextMenu!: MatMenuTrigger;
 
   constructor(public roomService: RoomService, private authorizationService: AuthorizationService) {
-    this.roomService.notify.subscribe(() => {this.roomService.messageService.getMessages(this.chatId, this.page);})
+    this.roomService.notify.subscribe(() => {this.getMessages(this.chatId);});
   }
 
   ngOnInit(): void {
@@ -36,6 +38,7 @@ export class ChatComponent implements OnInit {
   sendMessage(): void {
     this.message.messageText = this.text;
     this.message.userId = this.userId;
+    this.message.chatId = this.chatId;
     this.message.userName = localStorage.getItem("userName");
     if(this.isMessageReplying){
       this.message.repliedMessageId = this.selectedMessage.id;
@@ -67,11 +70,23 @@ export class ChatComponent implements OnInit {
       });
   }
 
-  joinRoom(newChatId: number){
+  getchatName(chat: Chat){
+    if(chat.chatType == 1){
+      for(let user of chat.users){
+        if(user.id != this.userId){
+          return user.userName;
+        }
+      }
+     }
+     return chat.name;
+  }
+
+  joinRoom(newChat: Chat){
     if(this.chatId != -1){this.roomService.leaveRoom(this.chatId); this.roomService.messageService.messages = []}
-    this.roomService.joinRoom(newChatId);
-    this.getMessages(newChatId);
-    this.chatId = newChatId;
+    this.roomService.joinRoom(newChat.id ?? -1).subscribe({
+      next: _ => {this.chatId = newChat.id ?? -1; this.page = null; this.getMessages(newChat.id ?? -1); this.chatType = newChat.chatType},
+      error: (err) => console.error(err)
+    });
   }
 
   previousPage(){
@@ -86,11 +101,9 @@ export class ChatComponent implements OnInit {
 
   deleteMessage(isDeletedOnlyForCreator: Boolean){
     this.roomService.deleteMessage(this.selectedMessage.id ?? -1, this.chatId, isDeletedOnlyForCreator).subscribe({
-      next: (response: any) => {
-        this.getMessages(this.chatId);
-  },
-  error: (err: HttpErrorResponse) => alert("Something went wrong")
-  });;
+      next: _ => {this.getMessages(this.chatId)},
+      error: (err) => console.error(err)
+    });
   }
 
   reply(replyOnlyForUser: Boolean){
@@ -131,7 +144,7 @@ export class ChatComponent implements OnInit {
   }
 
   get isAvailableNextPage(): Boolean{
-    if(this.roomService.messageService.messages.length < 20)
+    if(this.roomService.messageService.messages.length >= 20)
     {
       return true
     }
@@ -139,7 +152,7 @@ export class ChatComponent implements OnInit {
   }
 
   get isAvailablePreviousPage(): Boolean{
-    if(this.page !== null && this.page > 0)
+    if(this.page ?? 1 > 1)
     {
       return true
     }

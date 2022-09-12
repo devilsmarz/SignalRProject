@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SignalRBackend.BLL.DTO;
 using SignalRBackend.BLL.Interfaces;
 using SignalRBackend.DAL.DomainModels;
@@ -35,6 +36,7 @@ namespace SignalRBackend.BLL.Services
                 messageDB.IsDeletedOnlyForCreator = true;
             }
             await _unitOfWork.SaveAsync();
+            _unitOfWork.Message.DetachEntity(messageDB);
         }
 
         public MessageDTO AddOrUpdateMessage(MessageDTO message)
@@ -42,6 +44,7 @@ namespace SignalRBackend.BLL.Services
             Message messageDB = _mapper.Map<Message>(message);
             _unitOfWork.Message.Update(messageDB);
             _unitOfWork.Save();
+            _unitOfWork.Message.DetachEntity(messageDB);
             return _mapper.Map<MessageDTO>(messageDB); ;
         }
 

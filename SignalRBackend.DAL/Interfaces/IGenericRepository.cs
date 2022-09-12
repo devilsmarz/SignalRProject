@@ -13,5 +13,6 @@ namespace SignalRBackend.DAL.Interfaces
         void Update(T item);
         void Delete(T item);
         void AttachEntity(T item);
+        void DetachEntity(T item);
     }
 }

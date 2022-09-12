@@ -55,16 +55,17 @@ export class RoomService {
 
     this.hubConnection.on("ReceiveUpdatedMessage", (data: string) => {
       let updatedMessage: Message = JSON.parse(data); 
-      for(let message of this.messageService.messages)
+      let updat = this.messageService.messages;
+      for(let i = 0; i < this.messageService.messages.length; i++)
       {
-        if(message.id === updatedMessage.id)
+        if(this.messageService.messages[i].id === updatedMessage.id)
         {
-          message = updatedMessage;
+          this.messageService.messages[i] = updatedMessage;
         }
       }
     });
 
-    this.hubConnection.on("DeleteMessage", (data: string) => {
+    this.hubConnection.on("DeleteMessage", (data: any) => {
       this.notify.emit();
     });
   }

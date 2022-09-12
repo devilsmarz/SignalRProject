@@ -1,5 +1,7 @@
-﻿using SignalRBackend.DAL.DBConfiguration;
+﻿using Microsoft.EntityFrameworkCore;
+using SignalRBackend.DAL.DBConfiguration;
 using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
+using SignalRBackend.DAL.DomainModels;
 using SignalRBackend.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -40,6 +42,11 @@ namespace SignalRBackend.DAL.Repositories
         public void AttachEntity(T item)
         {
             Context.Set<T>().Attach(item);
+        }
+
+        public void DetachEntity(T item)
+        {
+            Context.Entry(item).State = EntityState.Detached;
         }
     }
 }

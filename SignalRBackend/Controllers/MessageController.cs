@@ -19,7 +19,7 @@ using SignalRBackend.WEB.Shared.Functions;
 namespace SignalRBackend.WEB.Controllers
 {
     [Route("[controller]")]
-    //[Authorize]
+    [Authorize]
     [ApiController]
     public class MessageController : ControllerBase
     {
@@ -65,14 +65,14 @@ namespace SignalRBackend.WEB.Controllers
         }
 
         [HttpDelete("{messageId}/{userId}/{chatId}/{isDeletedOnlyForCreator}")]
-        public async Task<IActionResult> DeleteMessagee(Int32 messageId, Int32 userId, Int32 chatId, Boolean isDeletedOnlyForCreator)
+        public async Task<IActionResult> DeleteMessage(Int32 messageId, Int32 userId, Int32 chatId, Boolean isDeletedOnlyForCreator)
         {
             if (await _messageservice.IsUserInChat(userId, chatId))
             {
                 await _messageservice.DeleteMessage(messageId, isDeletedOnlyForCreator);
                 if(!isDeletedOnlyForCreator)
                 {
-                    await _hub.Clients.Group(chatId.ToString()).SendAsync("DeleteMessage", JsonFunction.SerializeObject(messageId));
+                    await _hub.Clients.Group(chatId.ToString()).SendAsync("DeleteMessage");
                 }
                 return Ok();
             }

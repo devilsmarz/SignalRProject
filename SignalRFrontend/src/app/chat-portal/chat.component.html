@@ -6,7 +6,7 @@
       <div class="main">
         <div class="side-menu">
           <div *ngFor="let chat of roomService.chatService.chats">
-            <a class="room-button" (click)="joinRoom(chat.id ?? -1)">{{chat.name}}</a>
+            <a class="room-button" (click)="joinRoom(chat)">{{getchatName(chat)}}</a>
           </div>
       </div>
         <div class="chat" *ngIf="roomService.isConnected">
@@ -28,13 +28,13 @@
                 <button mat-menu-item *ngIf="selectedMessage.userId === userId" (click)="deleteMessage(true)">Delete only for me</button>
                 <button mat-menu-item *ngIf="selectedMessage.userId === userId" (click)="deleteMessage(false)">Delete for all</button>
                 <button mat-menu-item *ngIf="selectedMessage.userId !== userId" (click)="reply(true)">Reply only for user</button>
-                <button mat-menu-item (click)="reply(false)">Reply for all</button>
+                <button mat-menu-item *ngIf="chatType === 0" (click)="reply(false)">Reply for all</button>
               </ng-template>
             </mat-menu>
           </div>
           <div>
-            <button mat-raised-button [disabled]="isAvailableNextPage" (click)="nextPage()">Next page</button>
-            <button mat-raised-button [disabled]="isAvailablePreviousPage" (click)="previousPage()">Previous Page</button>
+            <button mat-raised-button [disabled]="!isAvailableNextPage" (click)="nextPage()">Next page</button>
+            <button mat-raised-button [disabled]="!isAvailablePreviousPage" (click)="previousPage()">Previous Page</button>
             <button mat-raised-button *ngIf="isMessageReplying" (click)="setIsMessageReplyingToFalse()">Close replying</button>
             <button mat-raised-button *ngIf="isMessageEditing" (click)="setIsMessageEditingToFalse()">Close editing</button>
           </div>
