@@ -1,5 +1,6 @@
+import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Chat } from 'src/models/chat';
 import { Message } from 'src/models/message';
@@ -22,12 +23,18 @@ export class ChatComponent implements OnInit {
   chatType: number = 0;
   isMessageEditing: Boolean = false;
   isMessageReplying: Boolean = false;
+  isMessageReplyingOnlyForUser: Boolean = false;
   userId: number = Number.parseInt(localStorage.getItem("userId") ?? "-1"); 
+  openMenu: boolean = false;
+  trigger: any;
   
-  @ViewChild(MatMenuTrigger)
-  contextMenu!: MatMenuTrigger;
+  @HostListener('document:click', ['$event'])
+    documentClick(event: MouseEvent) {
+        this.openMenu = false;
+    }
 
-  constructor(public roomService: RoomService, private authorizationService: AuthorizationService) {
+  constructor(public roomService: RoomService, 
+    private authorizationService: AuthorizationService) {
     this.roomService.notify.subscribe(() => {this.getMessages(this.chatId);});
   }
 
@@ -43,12 +50,12 @@ export class ChatComponent implements OnInit {
     if(this.isMessageReplying){
       this.message.repliedMessageId = this.selectedMessage.id;
       this.message.repliedMessage = this.selectedMessage;
-      this.message.receiverId = this.selectedMessage.userId;
+      if(this.isMessageReplyingOnlyForUser){this.message.receiverId = this.selectedMessage.userId;}
     }
 
     if(!this.isMessageEditing){
       this.roomService.sendMessage(this.message).subscribe({
-        next: _ => {this.text = ''; this.message = new Message(); this.isMessageReplying = false;},
+        next: _ => {this.text = ''; this.message = new Message(); this.isMessageReplying = false; this.isMessageReplyingOnlyForUser = false;},
         error: (err) => console.error(err)
       });
     }
@@ -101,14 +108,15 @@ export class ChatComponent implements OnInit {
 
   deleteMessage(isDeletedOnlyForCreator: Boolean){
     this.roomService.deleteMessage(this.selectedMessage.id ?? -1, this.chatId, isDeletedOnlyForCreator).subscribe({
-      next: _ => {this.getMessages(this.chatId)},
+      next: _ => {if(isDeletedOnlyForCreator === true){this.getMessages(this.chatId);}},
       error: (err) => console.error(err)
     });
   }
 
-  reply(replyOnlyForUser: Boolean){
+  reply(isMessageReplyingOnlyForUser: Boolean){
     this.isMessageEditing = false;
     this.isMessageReplying = true;
+    this.isMessageReplyingOnlyForUser = isMessageReplyingOnlyForUser;
   }
 
   edit(){
@@ -125,14 +133,19 @@ export class ChatComponent implements OnInit {
     this.isMessageReplying = false;
   }
 
-  onContextMenu(event: MouseEvent, message: Message) {
-    this.selectedMessage = message;
+  onContextMenu(event: any, message: Message, trigger: any) {
+    this.selectedMessage = message; 
     event.preventDefault();
-    this.contextMenu.openMenu();
+    this.trigger = trigger;
+    this.openMenu = true;
   }
 
   logout(){
     this.authorizationService.logout();
+  }
+
+  public formatDate(message: Message){
+    return message.activityDate;
   }
   
   get isMessageValid(): Boolean{
@@ -152,7 +165,7 @@ export class ChatComponent implements OnInit {
   }
 
   get isAvailablePreviousPage(): Boolean{
-    if(this.page ?? 1 > 1)
+    if((this.page ?? 1) > 1)
     {
       return true
     }

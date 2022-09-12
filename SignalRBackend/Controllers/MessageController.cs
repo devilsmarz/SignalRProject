@@ -40,7 +40,16 @@ namespace SignalRBackend.WEB.Controllers
             if (await _messageservice.IsUserInChat(message.UserId, message.ChatId))
             {
                 MessageViewModel messageDb = _mapper.Map<MessageViewModel>(_messageservice.AddOrUpdateMessage(_mapper.Map<MessageDTO>(message)));
-                await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveUpdatedMessage", JsonFunction.SerializeObject(messageDb));
+
+                if (message.ReceiverId == null)
+                {
+                    await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveUpdatedMessage", JsonFunction.SerializeObject(messageDb));
+                }
+                else
+                {
+                    await _hub.Clients.Users(new List<String>() { message.UserId.ToString(), message.ReceiverId.ToString() }).SendAsync("ReceiveUpdatedMessage", JsonFunction.SerializeObject(messageDb));
+                }
+
                 return Ok();
             }
             else
@@ -55,7 +64,15 @@ namespace SignalRBackend.WEB.Controllers
             if (await _messageservice.IsUserInChat(message.UserId, message.ChatId))
             {
                 MessageViewModel messageDb = _mapper.Map<MessageViewModel>(_messageservice.AddOrUpdateMessage(_mapper.Map<MessageDTO>(message)));
-                await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveNewMessage", JsonFunction.SerializeObject(messageDb));
+
+                if(message.ReceiverId == null)
+                {
+                    await _hub.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveNewMessage", JsonFunction.SerializeObject(messageDb));
+                }
+                else
+                {
+                    await _hub.Clients.Users(new List<String>(){ message.UserId.ToString(), message.ReceiverId.ToString()}).SendAsync("ReceiveNewMessage", JsonFunction.SerializeObject(messageDb));
+                }
                 return Ok();
             }
             else

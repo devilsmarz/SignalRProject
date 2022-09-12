@@ -13,6 +13,7 @@ import { ChatComponent } from './chat-portal/chat.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from 'src/services/authGuard/authGuard';
 import { tokenGetter } from './shared/functions';
+import { DatePipe } from '@angular/common';
 
  const appRoutes: Routes =[
    {path: '', component: LoginComponent},
@@ -45,6 +46,7 @@ import { tokenGetter } from './shared/functions';
   providers: [
     HttpClientModule,
     AuthGuard,
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: BaseUrlInterceptor,

@@ -24,6 +24,7 @@ using SignalRBackend.WEB.Configurations.MappingConfig;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.SignalR;
 
 namespace SignalRBackend.WEB
 {
@@ -42,6 +43,7 @@ namespace SignalRBackend.WEB
             services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(connection));
 
+            services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthorizationService, AuthorizationService>();
             services.AddScoped<IMessageService, MessageService>();
@@ -71,6 +73,8 @@ namespace SignalRBackend.WEB
             })
                .AddJwtBearer(options =>
                {
+                   options.RequireHttpsMetadata = false;
+                   options.SaveToken = true;
                    options.TokenValidationParameters = new TokenValidationParameters
                    {
                        ValidateIssuer = true,
@@ -81,7 +85,24 @@ namespace SignalRBackend.WEB
                        ValidAudience = "https://localhost:5001",
                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
                    };
+                   options.Events = new JwtBearerEvents
+                   {
+                       OnMessageReceived = context =>
+                       {
+                           var accessToken = context.Request.Query["access_token"];
+
+                           // If the request is for our hub...
+                           var path = context.HttpContext.Request.Path;
+                           if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/signalr")))
+                           {
+                               // Read the token out of the query string
+                               context.Token = accessToken;
+                           }
+                           return Task.CompletedTask;
+                       }
+                   };
                });
+
             services.AddSwaggerGen();
             services.AddSwaggerGen(c =>
             {

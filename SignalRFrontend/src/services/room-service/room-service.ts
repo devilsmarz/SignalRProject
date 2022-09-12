@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
+import * as signalR from '@microsoft/signalr';
+import { HubConnection, HubConnectionBuilder, IHttpConnectionOptions, LogLevel } from '@microsoft/signalr'
 import { from } from 'rxjs';
 import { Chat } from 'src/models/chat';
 import { Message } from 'src/models/message';
@@ -28,8 +29,15 @@ export class RoomService {
   }
 
   private getConnection(): HubConnection {
+    const options: IHttpConnectionOptions = {
+      accessTokenFactory: () => {
+        return localStorage.getItem("jwt") ?? "";
+      }
+    };
+
     return new HubConnectionBuilder()
-      .withUrl(this.connectionUrl)
+      .configureLogging(signalR.LogLevel.Information)
+      .withUrl(this.connectionUrl, options)
       .build();
   }
 
@@ -55,7 +63,6 @@ export class RoomService {
 
     this.hubConnection.on("ReceiveUpdatedMessage", (data: string) => {
       let updatedMessage: Message = JSON.parse(data); 
-      let updat = this.messageService.messages;
       for(let i = 0; i < this.messageService.messages.length; i++)
       {
         if(this.messageService.messages[i].id === updatedMessage.id)

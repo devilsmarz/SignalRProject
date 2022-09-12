@@ -1,12 +1,15 @@
 .chat-input > input {
     flex-grow: 2;
 }
+
 .chat-input > button {
     flex-grow: 1;
 }
+
 .head{
     background-color: #420e79;
 }
+
 .chat-input {
     background-color: #443554;
     min-height: 70px;
@@ -17,6 +20,7 @@
     flex-direction: row;
     padding: rem;
 }
+
 .message > footer {
     min-width: 60px;
     text-align: centrer;
@@ -36,9 +40,11 @@
     flex-direction: row;
     margin-top: 02rem;
 }
+
 .message:first-child {
     margin-top: auto;
 }
+
 .chat-body {
     background-color: #eee;
     flex-grow: 1;
@@ -47,18 +53,22 @@
     padding-bottom: 1rem;
     overflow: auto;
 }
+
 .chat {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     max-height: 100%;
 }
+
 .room-button:hover {
     box-shadow: 0 2px 3px 1px #222;
 }
+
 .room-button > strong{
     font-size: 36px;
 }
+
 body{
     margin: 0;
     height: 100vh;
@@ -66,24 +76,28 @@ body{
     display: flex;
     flex-direction: column;
 }
+
 .navbar{
     background-color: #342742;
     min-height: 50px;
     z-index: 100;
     box-shadow: 0 1px 2px 0 #333;
 }
+
 .main{
     background-color: rgb(51, 51, 51);
     flex-grow: 1;
     display: flex;
     flex-direction: row;
 }
+
 .side-menu{
     background-color: #443554;
     min-width: 100px;
     z-index: 50;
     box-shadow: 1 px 0 2px #333;
 }
+
 .room-button-under-input{
     color: white;
     text-decoration: none;
@@ -95,6 +109,7 @@ body{
     box-shadow: 0 1px 3px 1px #333;
     background-color: #67446b;
 }
+
 .room-button{
     color: white;
     text-decoration: none;
