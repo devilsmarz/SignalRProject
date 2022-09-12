@@ -10,5 +10,6 @@ namespace SignalRBackend.DAL.Interfaces
     {
         Task<IEnumerable<Message>> TakeMessages(Int32 userid, Int32 chatid);
         void DeleteById(Int32 id);
+        void UpdateGraph(Message message);
     }
 }

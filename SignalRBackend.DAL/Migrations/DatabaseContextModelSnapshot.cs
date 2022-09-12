@@ -239,11 +239,13 @@ namespace SignalRBackend.DAL.Migrations
 
                     b.HasOne("SignalRBackend.DAL.DomainModels.User", "Receiver")
                         .WithMany("Messages")
-                        .HasForeignKey("ReceiverId");
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("SignalRBackend.DAL.DomainModels.Message", "RepliedMessage")
-                        .WithMany()
-                        .HasForeignKey("RepliedMessageId");
+                        .WithMany("RepliedMessages")
+                        .HasForeignKey("RepliedMessageId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("SignalRBackend.DAL.DomainModels.User", "User")
                         .WithMany()
@@ -263,6 +265,11 @@ namespace SignalRBackend.DAL.Migrations
             modelBuilder.Entity("SignalRBackend.DAL.DomainModels.Chat", b =>
                 {
                     b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("SignalRBackend.DAL.DomainModels.Message", b =>
+                {
+                    b.Navigation("RepliedMessages");
                 });
 
             modelBuilder.Entity("SignalRBackend.DAL.DomainModels.User", b =>

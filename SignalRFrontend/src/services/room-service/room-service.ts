@@ -57,7 +57,17 @@ export class RoomService {
       let newMessage: Message = JSON.parse(data); 
       if(this.messageService.messages.length < 20)
       {
-        this.messageService.messages.push(newMessage);
+        let isAlreadyInArray = false;
+
+        for(let message of this.messageService.messages)
+        {
+          if(message.id === newMessage.id){
+            isAlreadyInArray = true;
+            break;
+          }
+        }
+        
+        if(!isAlreadyInArray){this.messageService.messages.push(newMessage)};
       }
     });
 
@@ -78,7 +88,7 @@ export class RoomService {
   }
   public leaveRoom(chatId: number){
     var promise = this.hubConnection.invoke("leaveRoom", chatId?.toString())
-    .then(() => { console.log('Join group sent successfully to hub'); this.isConnected = false;})
+    .then(() => { console.log('Leaving group sent successfully to hub'); this.isConnected = false;})
     .catch((err) => console.log('error while sending a join to group in hub: ' + err));
 
   return from(promise);

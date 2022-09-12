@@ -17,7 +17,7 @@ namespace SignalRBackend.DAL.Repositories
 
         public override Task<Message> GetById(Int32 id)
         {
-            return Context.Messages.Where(message => message.Id == id).Include(message => message.User).FirstOrDefaultAsync();
+            return Context.Messages.Where(message => message.Id == id).Include(message => message.RepliedMessages).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Message>> TakeMessages(Int32 userId, Int32 chatId)
@@ -36,6 +36,16 @@ namespace SignalRBackend.DAL.Repositories
             Message message = new Message() { Id = id };
             Context.Messages.Attach(message);
             Context.Messages.Remove(message);           
+        }
+
+        public void UpdateGraph(Message message)
+        {
+            foreach (var item in message.RepliedMessages)
+            {
+                item.RepliedMessageId = null;
+                item.RepliedMessage = null;
+                Update(item);
+            }
         }
     }
 }

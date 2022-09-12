@@ -25,7 +25,6 @@ namespace SignalRBackend.DAL.Repositories
 
         public void Delete(T item)
         {
-            AttachEntity(item);
             Context.Set<T>().Remove(item);
         }
 

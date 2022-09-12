@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace SignalRBackend.DAL.DomainModels
 {
@@ -17,6 +19,7 @@ namespace SignalRBackend.DAL.DomainModels
         public User Receiver { get; set; }
         public User User { get; set; }
         public Chat Chat { get; set; }
+        public IEnumerable<Message> RepliedMessages { get; set; }
 
     }
 }

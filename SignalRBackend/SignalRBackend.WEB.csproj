@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SignalRBackend.BAL\SignalRBackend.BLL.csproj" />
+    <ProjectReference Include="..\SignalRBackend.BLL\SignalRBackend.BLL.csproj" />
     <ProjectReference Include="..\SignalRBackend.DAL\SignalRBackend.DAL.csproj" />
   </ItemGroup>
 

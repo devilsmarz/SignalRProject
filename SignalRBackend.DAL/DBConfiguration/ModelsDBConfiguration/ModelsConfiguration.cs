@@ -84,7 +84,14 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
             modelBuilder.Entity<Message>()
                 .HasOne(s => s.Receiver)
                 .WithMany(s => s.Messages)
-                .HasForeignKey(s => s.ReceiverId);;
+                .HasForeignKey(s => s.ReceiverId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(s => s.RepliedMessage)
+                .WithMany(s => s.RepliedMessages)
+                .HasForeignKey(s => s.RepliedMessageId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Message>()
                 .Property(s => s.IsDeletedOnlyForCreator)

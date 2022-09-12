@@ -10,7 +10,7 @@ using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 namespace SignalRBackend.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220912054818_InitialCreate")]
+    [Migration("20220912064949_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -244,7 +244,7 @@ namespace SignalRBackend.DAL.Migrations
                         .HasForeignKey("ReceiverId");
 
                     b.HasOne("SignalRBackend.DAL.DomainModels.Message", "RepliedMessage")
-                        .WithMany()
+                        .WithMany("RepliedMessages")
                         .HasForeignKey("RepliedMessageId");
 
                     b.HasOne("SignalRBackend.DAL.DomainModels.User", "User")
@@ -265,6 +265,11 @@ namespace SignalRBackend.DAL.Migrations
             modelBuilder.Entity("SignalRBackend.DAL.DomainModels.Chat", b =>
                 {
                     b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("SignalRBackend.DAL.DomainModels.Message", b =>
+                {
+                    b.Navigation("RepliedMessages");
                 });
 
             modelBuilder.Entity("SignalRBackend.DAL.DomainModels.User", b =>

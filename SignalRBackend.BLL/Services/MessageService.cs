@@ -24,16 +24,17 @@ namespace SignalRBackend.BLL.Services
 
         public async Task DeleteMessage(Int32 messageId, Boolean isDeletedOnlyForCreator)
         {
-            Message messageDB = new Message() { Id = messageId };
+            Message messageDB = await _unitOfWork.Message.GetById(messageId);
 
             if (isDeletedOnlyForCreator == false)
             {
+                _unitOfWork.Message.UpdateGraph(messageDB);
                 _unitOfWork.Message.Delete(messageDB);
             }
             else
             {
-                _unitOfWork.Message.AttachEntity(messageDB);
                 messageDB.IsDeletedOnlyForCreator = true;
+
             }
             await _unitOfWork.SaveAsync();
             _unitOfWork.Message.DetachEntity(messageDB);
