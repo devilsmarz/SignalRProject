@@ -10,8 +10,8 @@ using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 namespace SignalRBackend.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220910123510_adsfs")]
-    partial class adsfs
+    [Migration("20220912054818_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -136,7 +136,8 @@ namespace SignalRBackend.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("ActivityDate")
+                    b.Property<DateTime?>("ActivityDate")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
@@ -144,12 +145,20 @@ namespace SignalRBackend.DAL.Migrations
                     b.Property<int>("ChatId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeletedOnlyForCreator")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("MessageText")
                         .IsRequired()
                         .HasMaxLength(4096)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ReceiverId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RepliedMessageId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -160,16 +169,13 @@ namespace SignalRBackend.DAL.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
-                    b.Property<bool>("isDeletedOnlyForCreator")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
                     b.HasKey("Id");
 
                     b.HasIndex("ChatId");
 
                     b.HasIndex("ReceiverId");
+
+                    b.HasIndex("RepliedMessageId");
 
                     b.HasIndex("UserId");
 
@@ -237,6 +243,10 @@ namespace SignalRBackend.DAL.Migrations
                         .WithMany("Messages")
                         .HasForeignKey("ReceiverId");
 
+                    b.HasOne("SignalRBackend.DAL.DomainModels.Message", "RepliedMessage")
+                        .WithMany()
+                        .HasForeignKey("RepliedMessageId");
+
                     b.HasOne("SignalRBackend.DAL.DomainModels.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -246,6 +256,8 @@ namespace SignalRBackend.DAL.Migrations
                     b.Navigation("Chat");
 
                     b.Navigation("Receiver");
+
+                    b.Navigation("RepliedMessage");
 
                     b.Navigation("User");
                 });

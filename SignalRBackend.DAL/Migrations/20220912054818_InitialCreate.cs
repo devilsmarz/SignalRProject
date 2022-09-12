@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SignalRBackend.DAL.Migrations
 {
-    public partial class adsfs : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -68,7 +68,8 @@ namespace SignalRBackend.DAL.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     ReceiverId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    isDeletedOnlyForCreator = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    RepliedMessageId = table.Column<int>(type: "int", nullable: true),
+                    IsDeletedOnlyForCreator = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     MessageText = table.Column<string>(type: "nvarchar(max)", maxLength: 4096, nullable: false),
                     ActivityDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getdate()")
                 },
@@ -81,6 +82,12 @@ namespace SignalRBackend.DAL.Migrations
                         principalTable: "Chats",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Messages_Messages_RepliedMessageId",
+                        column: x => x.RepliedMessageId,
+                        principalTable: "Messages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Messages_Users_ReceiverId",
                         column: x => x.ReceiverId,
@@ -146,6 +153,11 @@ namespace SignalRBackend.DAL.Migrations
                 name: "IX_Messages_ReceiverId",
                 table: "Messages",
                 column: "ReceiverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_RepliedMessageId",
+                table: "Messages",
+                column: "RepliedMessageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_UserId",
