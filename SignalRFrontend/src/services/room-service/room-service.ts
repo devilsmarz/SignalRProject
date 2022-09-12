@@ -22,6 +22,7 @@ export class RoomService {
   constructor(private http: HttpClient, public chatService: ChatService, public messageService: MessageService) { this.hubConnection = this.getConnection();}
 
   public connect = () => {
+    this.chatService.getChats();
     this.startConnection();
     this.addListeners();
   }
@@ -37,8 +38,7 @@ export class RoomService {
     
     this.hubConnection.start()
       .then(() => this.hubConnection.invoke("getConnectionId")
-      .then((connectionId) => {this.connectionId = connectionId; 
-        this.chatService.getChats();
+      .then((connectionId) => {this.connectionId = connectionId;      
       })
       )
       .catch((err) => {console.log('error while establishing signalr connection: ' + err); this.isConnected = false;})
