@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SignalRBackend.DAL.Repositories
 {
-    internal class MessageRepository : GenericRepository<Message> , IMessageRepository
+    public class MessageRepository : GenericRepository<Message> , IMessageRepository
     {
         public MessageRepository(DatabaseContext context) : base(context) { }
 
