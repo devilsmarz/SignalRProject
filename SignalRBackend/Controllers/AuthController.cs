@@ -21,7 +21,7 @@ namespace SignalRBackend.WEB.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginViewModel user)
         {
-            AuthenticatedResponseViewModel result =_mapper.Map<AuthenticatedResponseViewModel>(_authorizationService.Authorize(_mapper.Map<LoginDTO>(user)));
+            AuthenticatedResponseViewModel result = _mapper.Map<AuthenticatedResponseViewModel>(_authorizationService.Authorize(_mapper.Map<LoginDTO>(user)));
             return result != null ? Ok(result) : BadRequest();
         }
     }

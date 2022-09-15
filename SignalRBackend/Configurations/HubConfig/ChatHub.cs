@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SignalRBackend.WEB.Configurations.HubConfig
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class ChatHub: Hub
+    public class ChatHub : Hub
     {
         public String GetConnectionId()
         {

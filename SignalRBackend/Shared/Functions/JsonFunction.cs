@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
-using SignalRBackend.BLL.DTO;
-using SignalRBackend.DAL.DomainModels;
-using SignalRBackend.WEB.ViewModels;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 
 namespace SignalRBackend.WEB.Shared.Functions
@@ -11,10 +8,10 @@ namespace SignalRBackend.WEB.Shared.Functions
     {
         public static String SerializeObject<T>(T obj)
         {
-            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() 
+            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore, 
-                ContractResolver = new CamelCasePropertyNamesContractResolver() 
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
             return JsonConvert.SerializeObject(obj, jsonSerializerSettings);
         }

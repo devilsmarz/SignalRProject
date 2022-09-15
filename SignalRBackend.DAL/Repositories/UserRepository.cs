@@ -1,17 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SignalRBackend.DAL.DBConfiguration;
-using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
+﻿using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 using SignalRBackend.DAL.DomainModels;
 using SignalRBackend.DAL.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SignalRBackend.DAL.Repositories
 {
-    public class UserRepository : GenericRepository<User> , IUserRepository
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
         public UserRepository(DatabaseContext context) : base(context) { }
 

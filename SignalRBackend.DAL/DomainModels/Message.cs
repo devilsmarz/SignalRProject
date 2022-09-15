@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace SignalRBackend.DAL.DomainModels
@@ -11,7 +10,7 @@ namespace SignalRBackend.DAL.DomainModels
         public Int32 UserId { get; set; }
         public Int32? ReceiverId { get; set; }
         public String UserName { get; set; }
-        public  Int32? RepliedMessageId { get; set; }
+        public Int32? RepliedMessageId { get; set; }
         public Boolean IsDeletedOnlyForCreator { get; set; }
         public String MessageText { get; set; }
         public DateTime? ActivityDate { get; set; }

@@ -1,6 +1,6 @@
 ﻿using SignalRBackend.DAL.DomainModels;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SignalRBackend.WEB.ViewModels

@@ -3,11 +3,6 @@ using System.Collections.Generic;
 
 namespace SignalRBackend.DAL.DomainModels
 {
-    public enum ChatType
-    {
-        Room,
-        Private
-    }
     public class Chat
     {
         public Int32? Id { get; set; }
