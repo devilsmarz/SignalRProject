@@ -7,46 +7,35 @@ namespace SignalRBackend.DAL.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private DatabaseContext Context;
+        private DatabaseContext _context;
+
         public UnitOfWork(DatabaseContext context)
         {
-            Context = context;
-            User = new UserRepository(Context);
-            Chat = new ChatRepository(Context);
-            Message = new MessageRepository(Context);
+            _context = context;
+            User = new UserRepository(_context);
+            Chat = new ChatRepository(_context);
+            Message = new MessageRepository(_context);
         }
 
-        public IUserRepository User
-        {
-            get;
-            private set;
-        }
+        public IUserRepository User { get; private set; }
 
-        public IChatRepository Chat
-        {
-            get;
-            private set;
-        }
+        public IChatRepository Chat { get; private set; }
 
-        public IMessageRepository Message
-        {
-            get;
-            private set;
-        }
+        public IMessageRepository Message { get; private set; }
 
         public void Dispose()
         {
-            Context.Dispose();
+            _context.Dispose();
         }
 
         public Int32 Save()
         {
-            return Context.SaveChanges();
+            return _context.SaveChanges();
         }
 
         public async Task<Int32> SaveAsync()
         {
-            return await Context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
     }
 }

@@ -9,6 +9,7 @@ namespace SignalRBackend.DAL.Repositories
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected readonly DatabaseContext Context;
+
         public GenericRepository(DatabaseContext context)
         {
             Context = context;

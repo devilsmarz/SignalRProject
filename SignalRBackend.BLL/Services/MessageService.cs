@@ -47,9 +47,9 @@ namespace SignalRBackend.BLL.Services
             return _mapper.Map<MessageDTO>(messageDB); ;
         }
 
-        public async Task<PageInfoDTO> TakeMessages(Int32? page, Int32 userId, Int32 chatId)
+        public async Task<PageInfoDTO> GetMessages(Int32? page, Int32 userId, Int32 chatId)
         {
-            IEnumerable<MessageDTO> messages = _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.TakeMessages(userId, chatId));
+            IEnumerable<MessageDTO> messages = _mapper.Map<IEnumerable<MessageDTO>>(await _unitOfWork.Message.GetMessages(userId, chatId));
 
             Int32 numOfMessages = messages.Count();
             Int32 totalPages = numOfMessages % 20 == 0 ? numOfMessages / 20 : (numOfMessages / 20) + 1;

@@ -95,11 +95,11 @@ namespace SignalRBackend.WEB.Controllers
         }
 
         [HttpGet("{userid}/{chatid}/{page?}")]
-        public async Task<IActionResult> TakeMessages(Int32 userId, Int32 chatId, Int32? page = null)
+        public async Task<IActionResult> GetMessages(Int32 userId, Int32 chatId, Int32? page = null)
         {
             if (await _messageservice.IsUserInChat(userId, chatId))
             {
-                PageInfoViewModel chatinfo = _mapper.Map<PageInfoViewModel>(await _messageservice.TakeMessages(page, userId, chatId));
+                PageInfoViewModel chatinfo = _mapper.Map<PageInfoViewModel>(await _messageservice.GetMessages(page, userId, chatId));
                 return Ok(chatinfo);
             }
             else

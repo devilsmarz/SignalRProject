@@ -18,7 +18,7 @@ namespace SignalRBackend.DAL.Repositories
             return Context.Messages.Where(message => message.Id == id).Include(message => message.RepliedMessages).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Message>> TakeMessages(Int32 userId, Int32 chatId)
+        public async Task<IEnumerable<Message>> GetMessages(Int32 userId, Int32 chatId)
         {
             return await Context.Messages.Where(
                 message => message.ChatId == chatId
@@ -38,7 +38,7 @@ namespace SignalRBackend.DAL.Repositories
 
         public void UpdateGraph(Message message)
         {
-            foreach (var item in message.RepliedMessages)
+            foreach (Message item in message.RepliedMessages)
             {
                 item.RepliedMessageId = null;
                 item.RepliedMessage = null;

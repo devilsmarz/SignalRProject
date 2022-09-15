@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
@@ -84,10 +86,10 @@ namespace SignalRBackend.WEB
                    {
                        OnMessageReceived = context =>
                        {
-                           var accessToken = context.Request.Query["access_token"];
+                           StringValues accessToken = context.Request.Query["access_token"];
 
                            // If the request is for our hub...
-                           var path = context.HttpContext.Request.Path;
+                           PathString path = context.HttpContext.Request.Path;
                            if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/signalr")))
                            {
                                // Read the token out of the query string

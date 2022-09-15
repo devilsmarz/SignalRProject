@@ -12,11 +12,13 @@ namespace SignalRBackend.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+
         public ChatService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
         public async Task<IEnumerable<ChatDTO>> GetChatsById(Int32 userId)
         {
             IEnumerable<ChatDTO> chats = _mapper.Map<IEnumerable<ChatDTO>>(await _unitOfWork.Chat.GetChatsById(userId));

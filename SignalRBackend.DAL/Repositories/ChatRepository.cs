@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace SignalRBackend.DAL.Repositories
 {
-    internal class ChatRepository : GenericRepository<Chat>, IChatRepository
+    public class ChatRepository : GenericRepository<Chat>, IChatRepository
     {
         public ChatRepository(DatabaseContext context) : base(context) { }
+
         public async override Task<Chat> GetById(Int32 id)
         {
             return await Context.Chats.Where(chat => chat.Id == id).Include(chat => chat.Users).AsNoTracking().FirstOrDefaultAsync();
