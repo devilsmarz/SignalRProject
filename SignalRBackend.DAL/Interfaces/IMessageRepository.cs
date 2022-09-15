@@ -1,8 +1,7 @@
-﻿using System;
+﻿using SignalRBackend.DAL.DomainModels;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using SignalRBackend.DAL.DomainModels;
 
 namespace SignalRBackend.DAL.Interfaces
 {

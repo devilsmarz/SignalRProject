@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SignalRBackend.DAL.DomainModels;
 using SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration;
+using SignalRBackend.DAL.DomainModels;
 
 namespace SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration
 {
@@ -25,7 +25,7 @@ namespace SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ModelsConfiguration.ConfigureAll(modelBuilder);
-            
+
         }
     }
 }

@@ -1,17 +1,14 @@
 ﻿using AutoMapper;
 using SignalRBackend.BLL.DTO;
 using SignalRBackend.BLL.Interfaces;
-using SignalRBackend.DAL.DomainModels;
 using SignalRBackend.DAL.Interfaces;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SignalRBackend.BLL.Services
 {
-    public class ChatService: IChatService
+    public class ChatService : IChatService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -22,8 +19,8 @@ namespace SignalRBackend.BLL.Services
         }
         public async Task<IEnumerable<ChatDTO>> GetChatsById(Int32 userId)
         {
-            IEnumerable<ChatDTO> chats =_mapper.Map<IEnumerable<ChatDTO>>(await _unitOfWork.Chat.GetChatsById(userId));
-                return chats;
+            IEnumerable<ChatDTO> chats = _mapper.Map<IEnumerable<ChatDTO>>(await _unitOfWork.Chat.GetChatsById(userId));
+            return chats;
         }
     }
 }

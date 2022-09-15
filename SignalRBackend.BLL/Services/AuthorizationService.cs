@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using SignalRBackend.BLL.DTO;
 using SignalRBackend.BLL.Interfaces;
 using SignalRBackend.DAL.DomainModels;
@@ -12,7 +11,7 @@ using System.Text;
 
 namespace SignalRBackend.BLL.Services
 {
-    public class AuthorizationService: IAuthorizationService
+    public class AuthorizationService : IAuthorizationService
     {
         private readonly IUnitOfWork _unitOfWork;
         public AuthorizationService(IUnitOfWork unitOfWork)
@@ -47,7 +46,7 @@ namespace SignalRBackend.BLL.Services
 
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
 
-                return  new AuthenticatedResponseDTO {UserId = (Int32)user.Id, Token = tokenString, UserName =user.UserName};
+                return new AuthenticatedResponseDTO { UserId = (Int32)user.Id, Token = tokenString, UserName = user.UserName };
             }
 
             return null;

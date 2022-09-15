@@ -1,9 +1,5 @@
 ﻿using SignalRBackend.BLL.DTO;
-using SignalRBackend.DAL.DomainModels;
-using SignalRBackend.DAL.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SignalRBackend.BLL.Interfaces

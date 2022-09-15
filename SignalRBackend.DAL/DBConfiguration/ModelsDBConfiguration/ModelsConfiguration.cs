@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SignalRBackend.DAL.DomainModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
 {
@@ -28,7 +25,7 @@ namespace SignalRBackend.DAL.DBConfiguration.ModelsDBConfiguration
             modelBuilder.Entity<User>().HasData(
                 new User { Id = 1, UserName = "Ann" },
                 new User { Id = 2, UserName = "Ludwig" },
-                new User { Id = 3, UserName = "Alex" }  
+                new User { Id = 3, UserName = "Alex" }
             );
         }
 

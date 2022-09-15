@@ -1,17 +1,15 @@
-﻿using SignalRBackend.DAL.DBConfiguration;
+﻿using Microsoft.EntityFrameworkCore;
+using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
 using SignalRBackend.DAL.DomainModels;
 using SignalRBackend.DAL.Interfaces;
-using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace SignalRBackend.DAL.Repositories
 {
-    internal class ChatRepository : GenericRepository<Chat> , IChatRepository
+    internal class ChatRepository : GenericRepository<Chat>, IChatRepository
     {
         public ChatRepository(DatabaseContext context) : base(context) { }
         public async override Task<Chat> GetById(Int32 id)

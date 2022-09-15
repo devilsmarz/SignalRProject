@@ -1,5 +1,4 @@
-﻿using SignalRBackend.DAL.DomainModels;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SignalRBackend.WEB.ViewModels
@@ -18,11 +17,11 @@ namespace SignalRBackend.WEB.ViewModels
         public String UserName { get; set; }
         public Boolean IsDeletedOnlyForCreator { get; set; }
         [Required]
-        [MinLength(1),MaxLength(4096)]
+        [MinLength(1), MaxLength(4096)]
         public String MessageText { get; set; }
         public DateTime? ActivityDate { get; set; }
         public MessageViewModel RepliedMessage { get; set; }
-        public UserViewModel User{ get; set; }
+        public UserViewModel User { get; set; }
         public UserViewModel Receiver { get; set; }
         public ChatViewModel Chat { get; set; }
     }

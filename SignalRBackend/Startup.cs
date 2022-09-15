@@ -1,30 +1,25 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
-using SignalRBackend.WEB.Configurations.HubConfig;
-using SignalRBackend.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using SignalRBackend.DAL.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using SignalRBackend.BLL.Interfaces;
-using SignalRBackend.BLL.Services;
-using SignalRBackend.WEB.Configurations.MappingConfig;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.SignalR;
+using SignalRBackend.BLL.Interfaces;
+using SignalRBackend.BLL.Services;
+using SignalRBackend.DAL.DBConfiguration.DatabaseConfiguration;
+using SignalRBackend.DAL.Interfaces;
+using SignalRBackend.DAL.Repositories;
+using SignalRBackend.WEB.Configurations.HubConfig;
+using SignalRBackend.WEB.Configurations.MappingConfig;
+using System;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SignalRBackend.WEB
 {
@@ -154,7 +149,8 @@ namespace SignalRBackend.WEB
             app.UseAuthorization();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Showing API V1");
             });
 
